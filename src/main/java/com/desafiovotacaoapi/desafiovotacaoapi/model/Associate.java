@@ -1,5 +1,6 @@
 package com.desafiovotacaoapi.desafiovotacaoapi.model;
 
+import com.desafiovotacaoapi.desafiovotacaoapi.dto.associateDto.CreateAssociateDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,6 +22,12 @@ public class Associate {
 
     @Column(nullable = false)
     private String name;
+
+    public Associate(CreateAssociateDTO newAssociate) {
+
+        this.name = newAssociate.name();
+
+    }
 
     @Override
     public boolean equals(Object o) {
