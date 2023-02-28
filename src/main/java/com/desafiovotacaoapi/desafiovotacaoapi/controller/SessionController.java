@@ -1,8 +1,10 @@
 package com.desafiovotacaoapi.desafiovotacaoapi.controller;
 
-import com.desafiovotacaoapi.desafiovotacaoapi.dto.voteDto.CreateVoteDTO;
-import com.desafiovotacaoapi.desafiovotacaoapi.model.Vote;
+import com.desafiovotacaoapi.desafiovotacaoapi.dto.sessionDto.CreateSessionDTO;
+import com.desafiovotacaoapi.desafiovotacaoapi.model.Session;
+import com.desafiovotacaoapi.desafiovotacaoapi.service.SessionService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,9 +13,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/sessions")
 public class SessionController {
 
-    @PostMapping("/vote")
-    public ResponseEntity<Vote> vote(@Valid @RequestBody CreateVoteDTO data) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(new Vote());
+    private final SessionService sessionService;
+
+    @Autowired
+    public SessionController(SessionService sessionService) {
+        this.sessionService = sessionService;
+    }
+
+    @PostMapping
+    public ResponseEntity<Session> createSession(@Valid @RequestBody CreateSessionDTO data) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.sessionService.createSession(data));
     }
 
 }

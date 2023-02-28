@@ -16,22 +16,22 @@ import java.util.List;
 @RequestMapping("/associates")
 public class AssociateController {
 
-    private final AssociateService service;
+    private final AssociateService associateService;
 
     @Autowired
     public AssociateController(AssociateService service) {
-        this.service = service;
+        this.associateService = service;
     }
 
     @GetMapping
     public ResponseEntity<List<GetAssociateDTO>> getAllAsssociates() {
-        return ResponseEntity.status(HttpStatus.OK).body(service.getAllAssociates());
+        return ResponseEntity.status(HttpStatus.OK).body(this.associateService.getAllAssociates());
     }
 
     @PostMapping
     public ResponseEntity<Associate> createAssociate(@Valid @RequestBody CreateAssociateDTO data) {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.createAssociate(data));
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.associateService.createAssociate(data));
     }
 
 }

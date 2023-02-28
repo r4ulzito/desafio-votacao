@@ -5,13 +5,13 @@ import jakarta.validation.constraints.NotNull;
 
 public record CreateVoteDTO(
 
-        @NotNull
+        @NotNull(message = "The vote needs a answer!")
         Answer answer,
 
-        @NotNull
+        @NotNull(message = "The vote needs a associate!")
         Long associate_id,
 
-        @NotNull
+        @NotNull(message = "The vote needs a topic!")
         Long topic_id
 
 ) {

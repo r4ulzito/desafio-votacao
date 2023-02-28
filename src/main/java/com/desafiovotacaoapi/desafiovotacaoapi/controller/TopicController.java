@@ -16,23 +16,23 @@ import java.util.List;
 @RequestMapping("/topics")
 public class TopicController {
 
-    private final TopicService service;
+    private final TopicService topicService;
 
     @Autowired
     public TopicController(TopicService service) {
-        this.service = service;
+        this.topicService = service;
     }
 
     @GetMapping
     public ResponseEntity<List<GetTopicDTO>> getAllTopics() {
 
-        return ResponseEntity.status(HttpStatus.OK).body(service.getAllTopics());
+        return ResponseEntity.status(HttpStatus.OK).body(this.topicService.getAllTopics());
 
     }
 
     @PostMapping
     public ResponseEntity<Topic> createTopic(@Valid @RequestBody CreateTopicDTO data) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.createTopic(data));
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.topicService.createTopic(data));
     }
 
 }

@@ -8,6 +8,7 @@ import com.desafiovotacaoapi.desafiovotacaoapi.model.Vote;
 import com.desafiovotacaoapi.desafiovotacaoapi.repository.AssociateRepository;
 import com.desafiovotacaoapi.desafiovotacaoapi.repository.TopicRepository;
 import com.desafiovotacaoapi.desafiovotacaoapi.repository.VoteRepository;
+import com.desafiovotacaoapi.desafiovotacaoapi.validation.ValidateQueryIsNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,13 +33,10 @@ public class VoteService {
         Optional<Associate> targetAssociate = this.associateRepository.findById(newVote.associate_id());
         Optional<Topic> targetTopic = this.topicRepository.findById(newVote.topic_id());
 
-        if (targetAssociate.isEmpty()) {
-            throw new NullQueryResultExcpetion("Associate not found!");
-        } else if (targetTopic.isEmpty()) {
-            throw new NullQueryResultExcpetion("Topic not found!");
-        } else {
-            return this.voteRepository.save(new Vote(newVote.answer(), targetAssociate.get(), targetTopic.get()));
-        }
+        ValidateQueryIsNull.queryIsNull(targetAssociate, "Associate not found!");
+        ValidateQueryIsNull.queryIsNull(targetTopic, "Topic not found!");
+
+        return this.voteRepository.save(new Vote(newVote.answer(), targetAssociate.get(), targetTopic.get()));
 
     }
 
