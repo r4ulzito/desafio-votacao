@@ -1,6 +1,7 @@
 package com.desafiovotacaoapi.desafiovotacaoapi.service;
 
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.sessionDto.CreateSessionDTO;
+import com.desafiovotacaoapi.desafiovotacaoapi.dto.sessionDto.GetSessionDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.sessionDto.SessionVoteRequestDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.voteDto.CreateVoteDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.exception.sessionClosedException.SessionClosedException;
@@ -43,6 +44,10 @@ public class SessionService {
 
         return this.sessionRepository.save(new Session(dataEnd, targetTopic));
 
+    }
+
+    public List<GetSessionDTO> getAllSessions() {
+        return this.sessionRepository.findAll().stream().map(GetSessionDTO::new).toList();
     }
 
     public Session getSessionById(Long sessionId) {
