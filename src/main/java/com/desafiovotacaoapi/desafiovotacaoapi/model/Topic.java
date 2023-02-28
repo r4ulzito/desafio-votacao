@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.Hibernate;
 
-import java.util.List;
 import java.util.Objects;
 
 @Table(name = "tb_topics")
@@ -26,9 +25,6 @@ public class Topic {
 
     @Column(nullable = false)
     private String description;
-
-    @OneToMany
-    private List<Vote> votes;
 
     public Topic(CreateTopicDTO newTopic) {
 

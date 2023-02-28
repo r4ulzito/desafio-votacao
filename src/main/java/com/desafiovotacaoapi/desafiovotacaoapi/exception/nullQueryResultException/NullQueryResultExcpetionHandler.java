@@ -1,28 +1,23 @@
-package com.desafiovotacaoapi.desafiovotacaoapi.exception.customBeanValidationException;
+package com.desafiovotacaoapi.desafiovotacaoapi.exception.nullQueryResultException;
 
 import com.desafiovotacaoapi.desafiovotacaoapi.exception.DefaultCustomExceptionResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.Instant;
 
 @ControllerAdvice
-public class CustomBeanValidationExceptionHandler {
+public class NullQueryResultExcpetionHandler {
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<DefaultCustomExceptionResponse> BadResquestBeanValidationException(MethodArgumentNotValidException ex) {
+    @ExceptionHandler(NullQueryResultExcpetion.class)
+    public ResponseEntity<DefaultCustomExceptionResponse> nullQueryResultExcpetion(NullQueryResultExcpetion ex) {
 
-        FieldError fieldError = ex.getFieldError();
-
-        assert fieldError != null;
         DefaultCustomExceptionResponse error = new DefaultCustomExceptionResponse(
                 Instant.now(),
                 HttpStatus.BAD_REQUEST.value(),
-                fieldError.getDefaultMessage()
+                ex.getMessage()
         );
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);

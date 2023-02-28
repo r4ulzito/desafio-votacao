@@ -12,16 +12,20 @@ import java.util.List;
 @Service
 public class TopicService {
 
+    private final TopicRepository topicRepository;
+
     @Autowired
-    private TopicRepository repository;
+    public TopicService(TopicRepository repository) {
+        this.topicRepository = repository;
+    }
 
     public Topic createTopic(CreateTopicDTO newTopic) {
-        return repository.save(new Topic(newTopic));
+        return this.topicRepository.save(new Topic(newTopic));
     }
 
     public List<GetTopicDTO> getAllTopics() {
 
-        return repository.findAll().stream().map(GetTopicDTO::new).toList();
+        return this.topicRepository.findAll().stream().map(GetTopicDTO::new).toList();
 
     }
 

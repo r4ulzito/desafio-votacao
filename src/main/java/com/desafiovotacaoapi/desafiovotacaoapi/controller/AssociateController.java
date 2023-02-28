@@ -16,8 +16,12 @@ import java.util.List;
 @RequestMapping("/associates")
 public class AssociateController {
 
+    private final AssociateService service;
+
     @Autowired
-    private AssociateService service;
+    public AssociateController(AssociateService service) {
+        this.service = service;
+    }
 
     @GetMapping
     public ResponseEntity<List<GetAssociateDTO>> getAllAsssociates() {

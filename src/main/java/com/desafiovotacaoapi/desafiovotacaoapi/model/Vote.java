@@ -20,15 +20,25 @@ public class Vote {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Long associate_id;
+    @JoinColumn(name = "associate_id", nullable = false)
+    @OneToOne
+    private Associate associate;
 
     @ManyToOne
     @JoinColumn(name = "topic_id", nullable = false)
     private Topic topic;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Answer answer;
+
+    public Vote(Answer answer, Associate associate, Topic topic) {
+
+        this.answer = answer;
+        this.associate = associate;
+        this.topic = topic;
+
+    }
 
     @Override
     public boolean equals(Object o) {

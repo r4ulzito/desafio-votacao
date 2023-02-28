@@ -16,8 +16,12 @@ import java.util.List;
 @RequestMapping("/topics")
 public class TopicController {
 
+    private final TopicService service;
+
     @Autowired
-    private TopicService service;
+    public TopicController(TopicService service) {
+        this.service = service;
+    }
 
     @GetMapping
     public ResponseEntity<List<GetTopicDTO>> getAllTopics() {

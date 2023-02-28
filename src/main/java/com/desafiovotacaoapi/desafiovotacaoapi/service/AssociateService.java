@@ -12,15 +12,19 @@ import java.util.List;
 @Service
 public class AssociateService {
 
+    private final AssociateRepository associateRepository;
+
     @Autowired
-    private AssociateRepository repository;
+    public AssociateService(AssociateRepository repository) {
+        this.associateRepository = repository;
+    }
 
     public Associate createAssociate(CreateAssociateDTO newAssociate) {
-        return repository.save(new Associate(newAssociate));
+        return this.associateRepository.save(new Associate(newAssociate));
     }
 
     public List<GetAssociateDTO> getAllAssociates() {
-        return repository.findAll().stream().map(GetAssociateDTO::new).toList();
+        return this.associateRepository.findAll().stream().map(GetAssociateDTO::new).toList();
     }
 
 }
