@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import lombok.ToString;
 import org.hibernate.Hibernate;
 
 import java.time.LocalDateTime;
@@ -14,6 +16,7 @@ import java.util.Objects;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Session {
 
     @Id
@@ -31,16 +34,17 @@ public class Session {
     private LocalDateTime dataEnd;
 
     @Column(name = "is_open", nullable = false)
-    private boolean isOpen = true;
+    private boolean isOpen;
 
     public Session(LocalDateTime dataEnd, Topic topic) {
         this.dataStart = LocalDateTime.now();
         this.dataEnd = dataEnd;
         this.topic = topic;
+        this.isOpen = true;
     }
 
-    void closeSession() {
-        this.isOpen = false;
+    public void setOpen(boolean open) {
+        this.isOpen = open;
     }
 
     @Override

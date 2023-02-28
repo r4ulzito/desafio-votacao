@@ -1,5 +1,7 @@
 package com.desafiovotacaoapi.desafiovotacaoapi.dto.voteDto;
 
+import com.desafiovotacaoapi.desafiovotacaoapi.model.Associate;
+import com.desafiovotacaoapi.desafiovotacaoapi.model.Topic;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.enums.Answer;
 import jakarta.validation.constraints.NotNull;
 
@@ -9,10 +11,10 @@ public record CreateVoteDTO(
         Answer answer,
 
         @NotNull(message = "The vote needs a associate!")
-        Long associate_id,
+        Associate associate,
 
         @NotNull(message = "The vote needs a topic!")
-        Long topic_id
+        Topic topic
 
 ) {
 }

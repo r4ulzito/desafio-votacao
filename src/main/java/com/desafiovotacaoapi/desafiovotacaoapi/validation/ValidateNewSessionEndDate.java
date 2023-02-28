@@ -4,15 +4,19 @@ import com.desafiovotacaoapi.desafiovotacaoapi.exception.invalidDateEndException
 
 import java.time.LocalDateTime;
 
-public class ValidateNewSessionDateEnd {
+public class ValidateNewSessionEndDate {
 
-    public static void validDateEnd(LocalDateTime endDate) {
+    public static LocalDateTime validateEndDate(LocalDateTime endDate) {
 
         LocalDateTime today = LocalDateTime.now();
 
-        if (endDate.isBefore(today)) {
+        if (endDate == null) {
+            return today.plusMinutes(1);
+        } else if (endDate.isBefore(today)) {
             throw new InvalidDateEndException("Invalid session ends date!");
         }
+
+        return endDate;
 
     }
 

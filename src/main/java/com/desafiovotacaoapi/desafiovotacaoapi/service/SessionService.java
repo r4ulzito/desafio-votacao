@@ -1,39 +1,71 @@
 package com.desafiovotacaoapi.desafiovotacaoapi.service;
 
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.sessionDto.CreateSessionDTO;
+import com.desafiovotacaoapi.desafiovotacaoapi.dto.sessionDto.SessionVoteRequestDTO;
+import com.desafiovotacaoapi.desafiovotacaoapi.dto.voteDto.CreateVoteDTO;
+import com.desafiovotacaoapi.desafiovotacaoapi.exception.sessionClosedException.SessionClosedException;
+import com.desafiovotacaoapi.desafiovotacaoapi.model.Associate;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Session;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Topic;
+import com.desafiovotacaoapi.desafiovotacaoapi.model.Vote;
 import com.desafiovotacaoapi.desafiovotacaoapi.repository.SessionRepository;
-import com.desafiovotacaoapi.desafiovotacaoapi.repository.TopicRepository;
-import com.desafiovotacaoapi.desafiovotacaoapi.validation.ValidateNewSessionDateEnd;
+import com.desafiovotacaoapi.desafiovotacaoapi.validation.ValidateNewSessionEndDate;
 import com.desafiovotacaoapi.desafiovotacaoapi.validation.ValidateQueryIsNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
 public class SessionService {
 
     private final SessionRepository sessionRepository;
-    private final TopicRepository topicRepository;
+    private final AssociateService associateService;
+    private final TopicService topicService;
+    private final VoteService voteService;
 
     @Autowired
-    public SessionService(SessionRepository sessionRepository, TopicRepository topicRepository) {
+    public SessionService(SessionRepository sessionRepository, AssociateService associateService, TopicService topicService, VoteService voteService) {
         this.sessionRepository = sessionRepository;
-        this.topicRepository = topicRepository;
+        this.associateService = associateService;
+        this.topicService = topicService;
+        this.voteService = voteService;
     }
 
     public Session createSession(CreateSessionDTO newSession) {
 
-        Optional<Topic> targetTopic = topicRepository.findById(newSession.topic_id());
+        Topic targetTopic = this.topicService.getTopicById(newSession.topic_id());
 
-        ValidateQueryIsNull.queryIsNull(targetTopic, "Topic not found!");
+        LocalDateTime dataEnd = ValidateNewSessionEndDate.validateEndDate(newSession.data_end());
 
-        ValidateNewSessionDateEnd.validDateEnd(newSession.data_end());
+        return this.sessionRepository.save(new Session(dataEnd, targetTopic));
 
-        return this.sessionRepository.save(new Session(newSession.data_end(), targetTopic.get()));
+    }
 
+    public Session getSessionById(Long sessionId) {
+
+        Optional<Session> session = this.sessionRepository.findById(sessionId);
+        ValidateQueryIsNull.queryIsNull(session, "Session not found!");
+
+        return session.get();
+    }
+
+    public Vote vote(SessionVoteRequestDTO newSessionVote) {
+
+        Session targetSession = this.getSessionById(newSessionVote.session_id());
+
+        if (!targetSession.isOpen() || LocalDateTime.now().isAfter(targetSession.getDataEnd())) {
+            targetSession.setOpen(false);
+            this.sessionRepository.save(targetSession);
+            throw new SessionClosedException("Session is closed!");
+        }
+
+        Associate targetAssociate = this.associateService.getAssociateByID(newSessionVote.associate_id());
+        Topic targetTopic = this.topicService.getTopicById(targetSession.getTopic().getId());
+
+
+        return this.voteService.createVote(new CreateVoteDTO(newSessionVote.answer(), targetAssociate, targetTopic));
     }
 
 }
