@@ -34,5 +34,4 @@ public class TopicController {
     public ResponseEntity<Topic> createTopic(@Valid @RequestBody CreateTopicDTO data) {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.topicService.createTopic(data));
     }
-
 }

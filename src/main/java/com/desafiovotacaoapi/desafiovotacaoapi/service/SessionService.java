@@ -11,10 +11,13 @@ import com.desafiovotacaoapi.desafiovotacaoapi.model.Vote;
 import com.desafiovotacaoapi.desafiovotacaoapi.repository.SessionRepository;
 import com.desafiovotacaoapi.desafiovotacaoapi.validation.ValidateNewSessionEndDate;
 import com.desafiovotacaoapi.desafiovotacaoapi.validation.ValidateQueryIsNull;
+import com.desafiovotacaoapi.desafiovotacaoapi.validation.ValidateVoteAssociate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -51,7 +54,7 @@ public class SessionService {
         return session.get();
     }
 
-    public Vote vote(SessionVoteRequestDTO newSessionVote) {
+    public Vote newVote(SessionVoteRequestDTO newSessionVote) {
 
         Session targetSession = this.getSessionById(newSessionVote.session_id());
 
@@ -64,6 +67,9 @@ public class SessionService {
         Associate targetAssociate = this.associateService.getAssociateByID(newSessionVote.associate_id());
         Topic targetTopic = this.topicService.getTopicById(targetSession.getTopic().getId());
 
+        List<Vote> targetTopicVotes = this.voteService.getAllByTopicId(targetTopic.getId());
+
+        ValidateVoteAssociate.validateAssociateCanVote(targetTopicVotes, targetAssociate);
 
         return this.voteService.createVote(new CreateVoteDTO(newSessionVote.answer(), targetAssociate, targetTopic));
     }

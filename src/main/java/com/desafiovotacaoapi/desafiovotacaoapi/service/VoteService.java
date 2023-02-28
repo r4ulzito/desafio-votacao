@@ -25,10 +25,8 @@ public class VoteService {
 
     }
 
-    public List<Vote> getAllByTopicId(Long id) {
-        return this.voteRepository.findAllByTopicId(){
-
-        }
+    public List<Vote> getAllByTopicId(Long topicId) {
+        return this.voteRepository.findAllByTopicId(topicId);
     }
 
 }

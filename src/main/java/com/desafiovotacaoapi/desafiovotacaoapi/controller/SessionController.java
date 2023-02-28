@@ -30,7 +30,7 @@ public class SessionController {
     @PostMapping("/vote")
     public ResponseEntity<Vote> vote(@Valid @RequestBody SessionVoteRequestDTO data) {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(this.sessionService.vote(data));
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.sessionService.newVote(data));
 
     }
 
