@@ -2,6 +2,7 @@ package com.desafiovotacaoapi.desafiovotacaoapi.controller;
 
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.topicDto.CreateTopicDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.topicDto.GetTopicDTO;
+import com.desafiovotacaoapi.desafiovotacaoapi.dto.topicDto.ResultTopicVotesDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Topic;
 import com.desafiovotacaoapi.desafiovotacaoapi.service.TopicService;
 import jakarta.validation.Valid;
@@ -34,4 +35,12 @@ public class TopicController {
     public ResponseEntity<Topic> createTopic(@Valid @RequestBody CreateTopicDTO data) {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.topicService.createTopic(data));
     }
+
+    @GetMapping("/results/{id}")
+    public ResponseEntity<ResultTopicVotesDTO> getVotesResult(@PathVariable Long id) {
+
+        return ResponseEntity.status(HttpStatus.OK).body(this.topicService.getVotesResult(id));
+
+    }
+
 }

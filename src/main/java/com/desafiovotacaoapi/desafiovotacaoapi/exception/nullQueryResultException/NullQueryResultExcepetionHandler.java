@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.time.Instant;
 
 @ControllerAdvice
-public class NullQueryResultExcpetionHandler {
+public class NullQueryResultExcepetionHandler {
 
-    @ExceptionHandler(NullQueryResultExcpetion.class)
-    public ResponseEntity<DefaultCustomExceptionResponse> nullQueryResultExcpetion(NullQueryResultExcpetion ex) {
+    @ExceptionHandler(NullQueryResultExcepetion.class)
+    public ResponseEntity<DefaultCustomExceptionResponse> nullQueryResultExcpetion(NullQueryResultExcepetion ex) {
 
         DefaultCustomExceptionResponse error = new DefaultCustomExceptionResponse(
                 Instant.now(),
