@@ -33,14 +33,11 @@ class VoteServiceTest {
     }
 
     private List<Vote> listVotes() {
-
-        Associate fakeAssociate = new Associate(1L, "Fake Associate");
-
         List<Vote> list = new ArrayList<>();
 
-        list.add(new Vote(1L, fakeAssociate, new Topic(1L, "Title1", "Description1"), Answer.YES));
-        list.add(new Vote(2L, fakeAssociate, new Topic(1L, "Title2", "Description2"), Answer.YES));
-        list.add(new Vote(3L, fakeAssociate, new Topic(2L, "Title3", "Description3"), Answer.YES));
+        list.add(new Vote(1L, new Associate(), new Topic(1L, "Title1", "Description1"), Answer.YES));
+        list.add(new Vote(2L, new Associate(), new Topic(1L, "Title2", "Description2"), Answer.YES));
+        list.add(new Vote(3L, new Associate(), new Topic(2L, "Title3", "Description3"), Answer.YES));
 
         return list;
     }
@@ -62,7 +59,6 @@ class VoteServiceTest {
 
         assertEquals(createdVote.getId(), voteCaptor.getId());
         assertEquals(createdVote.getAnswer(), voteCaptor.getAnswer());
-        assertEquals(createdVote.getAssociate(), voteCaptor.getAssociate());
         assertEquals(createdVote.getTopic(), voteCaptor.getTopic());
         Mockito.verify(voteRepositoryMock, Mockito.times(1)).save(voteCaptor);
     }

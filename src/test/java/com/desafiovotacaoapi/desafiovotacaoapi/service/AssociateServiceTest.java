@@ -80,8 +80,6 @@ class AssociateServiceTest {
     @DisplayName("Deve retornar uma Exceção caso nao encontre nenhum associado com o ID indicado")
     public void getAssociateByIdPassingInexistentAssociateIdTest() {
 
-        List<Associate> associateList = associatesList();
-
         Mockito.when(associateRepositoryMock.findById(4L)).thenReturn(Optional.empty());
 
         try {
