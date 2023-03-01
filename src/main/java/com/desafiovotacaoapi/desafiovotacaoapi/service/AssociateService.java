@@ -25,9 +25,9 @@ public class AssociateService {
         return this.associateRepository.save(new Associate(newAssociate));
     }
 
-    public Associate getAssociateByID(Long assocaiteId) {
+    public Associate getAssociateByID(Long associateId) {
 
-        Optional<Associate> associate = this.associateRepository.findById(assocaiteId);
+        Optional<Associate> associate = this.associateRepository.findById(associateId);
 
         ValidateQueryIsNull.queryIsNull(associate, "Associate not found!");
 
