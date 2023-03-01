@@ -1,5 +1,6 @@
 package com.desafiovotacaoapi.desafiovotacaoapi.model;
 
+import com.desafiovotacaoapi.desafiovotacaoapi.dto.voteDto.CreateVoteDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.enums.Answer;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -33,11 +34,11 @@ public class Vote {
     @Enumerated(EnumType.STRING)
     private Answer answer;
 
-    public Vote(Answer answer, Associate associate, Topic topic) {
+    public Vote(CreateVoteDTO newVote) {
 
-        this.answer = answer;
-        this.associate = associate;
-        this.topic = topic;
+        this.answer = newVote.answer();
+        this.associate = newVote.associate();
+        this.topic = newVote.topic();
 
     }
 

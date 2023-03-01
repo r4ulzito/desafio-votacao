@@ -49,7 +49,7 @@ class AssociateServiceTest {
 
         CreateAssociateDTO createAssociateDataMock = new CreateAssociateDTO("Name Teste");
 
-        Mockito.when(associateRepositoryMock.save(Mockito.any())).thenReturn(new Associate(createAssociateDataMock));
+        Mockito.when(associateRepositoryMock.save(Mockito.any(Associate.class))).thenReturn(new Associate(createAssociateDataMock));
 
         Associate newAssociate = this.service.createAssociate(createAssociateDataMock);
 

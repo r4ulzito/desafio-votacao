@@ -16,13 +16,10 @@ public class VoteService {
     @Autowired
     public VoteService(VoteRepository voteRepository) {
         this.voteRepository = voteRepository;
-
     }
 
     public Vote createVote(CreateVoteDTO newVote) {
-
-        return this.voteRepository.save(new Vote(newVote.answer(), newVote.associate(), newVote.topic()));
-
+        return this.voteRepository.save(new Vote(newVote));
     }
 
     public List<Vote> getAllByTopicId(Long topicId) {
