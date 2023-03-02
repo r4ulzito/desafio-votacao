@@ -64,7 +64,7 @@ class VoteServiceTest {
     }
 
     @Test
-    @DisplayName("Deve retornar todos os votos referentes ao topico passado por parametro")
+    @DisplayName("Deve retornar todos os votos referentes ao topico enviado por parametro")
     public void getAllByTopicIdTest() {
 
         List<Vote> listVotes = listVotes();

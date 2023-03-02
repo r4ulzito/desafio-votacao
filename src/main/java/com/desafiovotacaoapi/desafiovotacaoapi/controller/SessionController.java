@@ -25,6 +25,13 @@ public class SessionController {
         this.sessionService = sessionService;
     }
 
+    @GetMapping
+    public ResponseEntity<List<GetSessionDTO>> getAllSessions() {
+
+        return ResponseEntity.status(HttpStatus.OK).body(this.sessionService.getAllSessions());
+
+    }
+
     @PostMapping
     public ResponseEntity<Session> createSession(@Valid @RequestBody CreateSessionDTO data) {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.sessionService.createSession(data));
@@ -34,13 +41,6 @@ public class SessionController {
     public ResponseEntity<Vote> vote(@Valid @RequestBody SessionVoteRequestDTO data) {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(this.sessionService.newVote(data));
-
-    }
-
-    @GetMapping
-    public ResponseEntity<List<GetSessionDTO>> getAllSessions() {
-
-        return ResponseEntity.status(HttpStatus.OK).body(this.sessionService.getAllSessions());
 
     }
 
