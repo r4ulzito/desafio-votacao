@@ -50,7 +50,7 @@ public class TopicService {
         List<Vote> targetTopicVotes = this.voteService.getAllByTopicId(topicId);
 
         if (targetTopicVotes.size() == 0) {
-            throw new NullQueryResultExcepetion("No votes registered");
+            throw new NullQueryResultExcepetion("No votes registered!");
         }
 
         AtomicInteger yesVotes = new AtomicInteger();

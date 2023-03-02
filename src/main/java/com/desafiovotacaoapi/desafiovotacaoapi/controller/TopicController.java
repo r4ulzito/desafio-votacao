@@ -24,16 +24,16 @@ public class TopicController {
         this.topicService = service;
     }
 
+    @PostMapping
+    public ResponseEntity<Topic> createTopic(@Valid @RequestBody CreateTopicDTO data) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.topicService.createTopic(data));
+    }
+
     @GetMapping
     public ResponseEntity<List<GetTopicDTO>> getAllTopics() {
 
         return ResponseEntity.status(HttpStatus.OK).body(this.topicService.getAllTopics());
 
-    }
-
-    @PostMapping
-    public ResponseEntity<Topic> createTopic(@Valid @RequestBody CreateTopicDTO data) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(this.topicService.createTopic(data));
     }
 
     @GetMapping("/results/{id}")

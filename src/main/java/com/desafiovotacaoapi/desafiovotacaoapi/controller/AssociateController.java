@@ -23,15 +23,15 @@ public class AssociateController {
         this.associateService = service;
     }
 
-    @GetMapping
-    public ResponseEntity<List<GetAssociateDTO>> getAllAsssociates() {
-        return ResponseEntity.status(HttpStatus.OK).body(this.associateService.getAllAssociates());
-    }
-
     @PostMapping
     public ResponseEntity<Associate> createAssociate(@Valid @RequestBody CreateAssociateDTO data) {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(this.associateService.createAssociate(data));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<GetAssociateDTO>> getAllAsssociates() {
+        return ResponseEntity.status(HttpStatus.OK).body(this.associateService.getAllAssociates());
     }
 
 }

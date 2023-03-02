@@ -143,7 +143,7 @@ class TopicServiceTest {
             ResultTopicVotesDTO topicVotesResult = this.service.getVotesResult(1L);
             Mockito.verifyNoInteractions(voteServiceMock);
         } catch (NullQueryResultExcepetion ex) {
-            assertEquals(ex.getMessage(), "No votes registered");
+            assertEquals(ex.getMessage(), "No votes registered!");
         }
 
     }
