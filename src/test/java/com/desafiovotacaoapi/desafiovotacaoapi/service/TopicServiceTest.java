@@ -86,7 +86,7 @@ class TopicServiceTest {
     }
 
     @Test
-    @DisplayName("Deve retornar uma Exceção caso nao encontre nenhum topico com o ID indicado")
+    @DisplayName("Deve lançar uma Exceção caso nao encontre nenhum topico com o ID indicado")
     public void getTopicByIdWithInexistentTopicIdTest() {
 
         Mockito.when(topicRepositoryMock.findById(4L)).thenReturn(Optional.empty());
