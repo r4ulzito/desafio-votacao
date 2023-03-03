@@ -16,7 +16,6 @@ import java.util.Objects;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class Session {
 
     @Id

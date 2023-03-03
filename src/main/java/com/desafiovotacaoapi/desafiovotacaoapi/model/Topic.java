@@ -15,7 +15,6 @@ import java.util.Objects;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class Topic {
 
     @Id
