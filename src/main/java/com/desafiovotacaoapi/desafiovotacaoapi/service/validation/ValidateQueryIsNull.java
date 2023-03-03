@@ -1,6 +1,6 @@
-package com.desafiovotacaoapi.desafiovotacaoapi.validation;
+package com.desafiovotacaoapi.desafiovotacaoapi.service.validation;
 
-import com.desafiovotacaoapi.desafiovotacaoapi.exception.nullQueryResultException.NullQueryResultExcepetion;
+import com.desafiovotacaoapi.desafiovotacaoapi.service.exception.nullQueryResultException.NullQueryResultExcepetion;
 
 import java.util.Optional;
 

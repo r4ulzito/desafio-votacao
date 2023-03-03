@@ -1,6 +1,7 @@
-package com.desafiovotacaoapi.desafiovotacaoapi.validation;
+package com.desafiovotacaoapi.desafiovotacaoapi.service.validation;
 
-import com.desafiovotacaoapi.desafiovotacaoapi.exception.nullQueryResultException.NullQueryResultExcepetion;
+import com.desafiovotacaoapi.desafiovotacaoapi.service.exception.nullQueryResultException.NullQueryResultExcepetion;
+import com.desafiovotacaoapi.desafiovotacaoapi.service.validation.ValidateQueryIsNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

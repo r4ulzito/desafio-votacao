@@ -1,6 +1,6 @@
-package com.desafiovotacaoapi.desafiovotacaoapi.exception.customBeanValidationException;
+package com.desafiovotacaoapi.desafiovotacaoapi.service.exception.customBeanValidationException;
 
-import com.desafiovotacaoapi.desafiovotacaoapi.exception.DefaultCustomExceptionResponse;
+import com.desafiovotacaoapi.desafiovotacaoapi.service.exception.DefaultCustomExceptionResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;

@@ -1,4 +1,4 @@
-package com.desafiovotacaoapi.desafiovotacaoapi.exception;
+package com.desafiovotacaoapi.desafiovotacaoapi.service.exception;
 
 import lombok.Data;
 

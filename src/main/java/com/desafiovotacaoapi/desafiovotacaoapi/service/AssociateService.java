@@ -4,7 +4,7 @@ import com.desafiovotacaoapi.desafiovotacaoapi.dto.associateDto.CreateAssociateD
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.associateDto.GetAssociateDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Associate;
 import com.desafiovotacaoapi.desafiovotacaoapi.repository.AssociateRepository;
-import com.desafiovotacaoapi.desafiovotacaoapi.validation.ValidateQueryIsNull;
+import com.desafiovotacaoapi.desafiovotacaoapi.service.validation.ValidateQueryIsNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

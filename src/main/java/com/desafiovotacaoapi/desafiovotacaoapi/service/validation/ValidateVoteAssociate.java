@@ -1,6 +1,6 @@
-package com.desafiovotacaoapi.desafiovotacaoapi.validation;
+package com.desafiovotacaoapi.desafiovotacaoapi.service.validation;
 
-import com.desafiovotacaoapi.desafiovotacaoapi.exception.associateInvalidVoteException.AssociateInvalidVoteException;
+import com.desafiovotacaoapi.desafiovotacaoapi.service.exception.associateInvalidVoteException.AssociateInvalidVoteException;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Associate;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Vote;
 

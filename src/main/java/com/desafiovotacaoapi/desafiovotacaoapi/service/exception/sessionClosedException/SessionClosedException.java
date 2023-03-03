@@ -1,4 +1,4 @@
-package com.desafiovotacaoapi.desafiovotacaoapi.exception.sessionClosedException;
+package com.desafiovotacaoapi.desafiovotacaoapi.service.exception.sessionClosedException;
 
 public class SessionClosedException extends RuntimeException {
 

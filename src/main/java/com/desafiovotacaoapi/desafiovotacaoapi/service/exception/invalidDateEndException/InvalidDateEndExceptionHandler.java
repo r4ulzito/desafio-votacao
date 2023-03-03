@@ -1,6 +1,6 @@
-package com.desafiovotacaoapi.desafiovotacaoapi.exception.sessionClosedException;
+package com.desafiovotacaoapi.desafiovotacaoapi.service.exception.invalidDateEndException;
 
-import com.desafiovotacaoapi.desafiovotacaoapi.exception.DefaultCustomExceptionResponse;
+import com.desafiovotacaoapi.desafiovotacaoapi.service.exception.DefaultCustomExceptionResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.time.Instant;
 
 @ControllerAdvice
-public class SessionClosedExceptionHandler {
+public class InvalidDateEndExceptionHandler {
 
-    @ExceptionHandler(SessionClosedException.class)
-    public ResponseEntity<DefaultCustomExceptionResponse> sessionClosedException(SessionClosedException ex) {
+    @ExceptionHandler(InvalidDateEndException.class)
+    public ResponseEntity<DefaultCustomExceptionResponse> InvalidDateException(InvalidDateEndException ex) {
 
         DefaultCustomExceptionResponse error = new DefaultCustomExceptionResponse(
                 Instant.now(),

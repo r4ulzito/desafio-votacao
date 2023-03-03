@@ -1,6 +1,7 @@
-package com.desafiovotacaoapi.desafiovotacaoapi.validation;
+package com.desafiovotacaoapi.desafiovotacaoapi.service.validation;
 
-import com.desafiovotacaoapi.desafiovotacaoapi.exception.invalidDateEndException.InvalidDateEndException;
+import com.desafiovotacaoapi.desafiovotacaoapi.service.exception.invalidDateEndException.InvalidDateEndException;
+import com.desafiovotacaoapi.desafiovotacaoapi.service.validation.ValidateNewSessionEndDate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

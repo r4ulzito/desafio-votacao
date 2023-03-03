@@ -3,12 +3,12 @@ package com.desafiovotacaoapi.desafiovotacaoapi.service;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.topicDto.CreateTopicDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.topicDto.GetTopicDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.topicDto.ResultTopicVotesDTO;
-import com.desafiovotacaoapi.desafiovotacaoapi.exception.nullQueryResultException.NullQueryResultExcepetion;
+import com.desafiovotacaoapi.desafiovotacaoapi.service.exception.nullQueryResultException.NullQueryResultExcepetion;
 import com.desafiovotacaoapi.desafiovotacaoapi.helper.VotesCounterHelper;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Topic;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Vote;
 import com.desafiovotacaoapi.desafiovotacaoapi.repository.TopicRepository;
-import com.desafiovotacaoapi.desafiovotacaoapi.validation.ValidateQueryIsNull;
+import com.desafiovotacaoapi.desafiovotacaoapi.service.validation.ValidateQueryIsNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

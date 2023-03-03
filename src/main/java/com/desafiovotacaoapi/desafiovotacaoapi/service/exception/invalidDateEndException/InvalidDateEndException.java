@@ -1,4 +1,4 @@
-package com.desafiovotacaoapi.desafiovotacaoapi.exception.invalidDateEndException;
+package com.desafiovotacaoapi.desafiovotacaoapi.service.exception.invalidDateEndException;
 
 public class InvalidDateEndException extends RuntimeException {
 

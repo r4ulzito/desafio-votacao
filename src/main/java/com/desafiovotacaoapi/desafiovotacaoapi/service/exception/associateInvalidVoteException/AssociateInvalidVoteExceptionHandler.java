@@ -1,6 +1,6 @@
-package com.desafiovotacaoapi.desafiovotacaoapi.exception.nullQueryResultException;
+package com.desafiovotacaoapi.desafiovotacaoapi.service.exception.associateInvalidVoteException;
 
-import com.desafiovotacaoapi.desafiovotacaoapi.exception.DefaultCustomExceptionResponse;
+import com.desafiovotacaoapi.desafiovotacaoapi.service.exception.DefaultCustomExceptionResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.time.Instant;
 
 @ControllerAdvice
-public class NullQueryResultExcepetionHandler {
+public class AssociateInvalidVoteExceptionHandler {
 
-    @ExceptionHandler(NullQueryResultExcepetion.class)
-    public ResponseEntity<DefaultCustomExceptionResponse> nullQueryResultExcpetion(NullQueryResultExcepetion ex) {
+    @ExceptionHandler(AssociateInvalidVoteException.class)
+    public ResponseEntity<DefaultCustomExceptionResponse> associateInvalidVote(AssociateInvalidVoteException ex) {
 
         DefaultCustomExceptionResponse error = new DefaultCustomExceptionResponse(
                 Instant.now(),
