@@ -17,8 +17,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class VotesCounterHelperTest {
 
     @Test
-    @DisplayName("Deve retonar a contagem dos votos e o resultado")
-    public void countVotesTest() {
+    @DisplayName("Deve retonar a contagem dos votos e o result YES")
+    public void countVotesWithYesResultTest() {
 
         List<Vote> listVotes = new ArrayList<>();
 
@@ -32,6 +32,43 @@ class VotesCounterHelperTest {
         assertEquals(result.yesVotes(), 2);
         assertEquals(result.noVotes(), 1);
         assertEquals(result.result(), TopicVotesResult.YES);
+
+    }
+
+    @Test
+    @DisplayName("Deve retonar a contagem dos votos e o result NO")
+    public void countVotesWithNoResultTest() {
+
+        List<Vote> listVotes = new ArrayList<>();
+
+        listVotes.add(new Vote(1L, new Associate(), new Topic(), Answer.YES));
+        listVotes.add(new Vote(2L, new Associate(), new Topic(), Answer.NO));
+        listVotes.add(new Vote(3L, new Associate(), new Topic(), Answer.NO));
+
+        ResultTopicVotesDTO result = VotesCounterHelper.countVotes(listVotes);
+
+        assertEquals(result.totalVotes(), 3);
+        assertEquals(result.yesVotes(), 1);
+        assertEquals(result.noVotes(), 2);
+        assertEquals(result.result(), TopicVotesResult.NO);
+
+    }
+
+    @Test
+    @DisplayName("Deve retonar a contagem dos votos e o result DRAW")
+    public void countVotesWithDrawResultTest() {
+
+        List<Vote> listVotes = new ArrayList<>();
+
+        listVotes.add(new Vote(1L, new Associate(), new Topic(), Answer.YES));
+        listVotes.add(new Vote(2L, new Associate(), new Topic(), Answer.NO));
+
+        ResultTopicVotesDTO result = VotesCounterHelper.countVotes(listVotes);
+
+        assertEquals(result.totalVotes(), 2);
+        assertEquals(result.yesVotes(), 1);
+        assertEquals(result.noVotes(), 1);
+        assertEquals(result.result(), TopicVotesResult.DRAW);
 
     }
 
