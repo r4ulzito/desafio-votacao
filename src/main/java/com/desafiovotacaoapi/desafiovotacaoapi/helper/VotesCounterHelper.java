@@ -24,7 +24,11 @@ public class VotesCounterHelper {
             }
         });
 
-        result = yesVotes.get() > noVotes.get() ? TopicVotesResult.YES : TopicVotesResult.NO;
+        if (yesVotes.intValue() > noVotes.intValue()) {
+            result = TopicVotesResult.YES;
+        } else if (yesVotes.intValue() < noVotes.intValue()) {
+            result = TopicVotesResult.NO;
+        }
 
         return new ResultTopicVotesDTO(topicVotes.size(), yesVotes.get(), noVotes.get(), result);
     }
