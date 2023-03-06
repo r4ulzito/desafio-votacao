@@ -1,7 +1,4 @@
 # Sobre a Aplicação
-
----
-
 No cooperativismo, cada associado possui um voto e as decisões são tomadas em assembleias, por votação. Partindo deste
 viés, o objetivo da aplicação é permitir a criação de tópicos que serão votados pelos associados através de sessões de
 votação, as mesmas com um tempo delimitado.
@@ -9,15 +6,9 @@ votação, as mesmas com um tempo delimitado.
 Tudo foi desenvolvido em linguagem Java, com auxílio do framework [Spring Boot](https://spring.io/).
 
 # Modelo de Entidades
-
----
-
 ![Untitled](https://i.postimg.cc/k5d5tgW5/modelos-entidades-desafio-votacao.png)
 
 # Arquitetura
-
----
-
 Foi seguido o padrão de camadas controller, service, repository e model. Sendo a comunicação entre serviços e
 controladores feita através de Data Transfer Objects(DTO’s)
 
@@ -25,15 +16,13 @@ controladores feita através de Data Transfer Objects(DTO’s)
 
 # Rotas
 
----
-
 ### ⇒ Associate
 
 - **POST →** /associates
     - Cria um novo associado
     - Corpo da requisição
 
-        ```json
+        ```
         {
             "name": "Exemplo Nome"
         }
@@ -43,7 +32,7 @@ controladores feita através de Data Transfer Objects(DTO’s)
 - **GET →** /associates
     - Busca todos os associados
 
-        ```json
+        ```
         //Response Body
         [
             {
@@ -59,7 +48,7 @@ controladores feita através de Data Transfer Objects(DTO’s)
     - Cria um novo tópico
     - Corpo da requisição
 
-        ```json
+        ```
         {
             "title": "Exemplo Título",
             "description": "Exemplo Descrição"
@@ -69,7 +58,7 @@ controladores feita através de Data Transfer Objects(DTO’s)
 - **GET →** /topics
     - Busca todos os tópicos
 
-        ```json
+        ```
         //Response Body
         [
             {
@@ -84,7 +73,7 @@ controladores feita através de Data Transfer Objects(DTO’s)
     - Busca o resultado da votação de um determinado tópico
     - Exemplo:
 
-        ```json
+        ```
         //Requisição http://localhost:8080//topics/results/1
         //Response Body
         {
@@ -101,18 +90,18 @@ controladores feita através de Data Transfer Objects(DTO’s)
     - Cria uma nova seção
     - Corpo da requisição
 
-        ```json
+        ```
         {
             "data_end": "2045-02-28T13:30:00",
             "topic_id": 1
-        **}**
+        }
         ```
 
 - **POST →** /sessions/vote
     - Cria um novo voto no tópico referente a sessão
     - Corpo da requisição
 
-        ```json
+        ```
         {
             "session_id": 1,
             "associate_id": 1,
@@ -123,7 +112,7 @@ controladores feita através de Data Transfer Objects(DTO’s)
 - **GET →** /sessions
     - Busca todas as sessões
 
-        ```json
+        ```
         //Response Body
         [
             {
@@ -141,9 +130,6 @@ controladores feita através de Data Transfer Objects(DTO’s)
         ```
 
 # Como usar?
-
----
-
 ### 1. Clone o projeto
 
 ```markdown
