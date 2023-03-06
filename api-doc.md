@@ -134,7 +134,7 @@ controladores feita através de Data Transfer Objects(DTO’s)
 
 ```markdown
 #No seu terminal
-git clone https://gitlab.com/equipe-rocket-2022/front-end.git
+git clone https://github.com/r4ulzito/desafio-votacao.git
 ```
 
 ### 2. Configure o banco de dados
