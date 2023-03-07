@@ -1,4 +1,5 @@
 # Sobre a Aplicação
+
 No cooperativismo, cada associado possui um voto e as decisões são tomadas em assembleias, por votação. Partindo deste
 viés, o objetivo da aplicação é permitir a criação de tópicos que serão votados pelos associados através de sessões de
 votação, as mesmas com um tempo delimitado.
@@ -6,13 +7,8 @@ votação, as mesmas com um tempo delimitado.
 Tudo foi desenvolvido em linguagem Java, com auxílio do framework [Spring Boot](https://spring.io/).
 
 # Modelo de Entidades
+
 ![Untitled](https://i.postimg.cc/k5d5tgW5/modelos-entidades-desafio-votacao.png)
-
-# Arquitetura
-Foi seguido o padrão de camadas controller, service, repository e model. Sendo a comunicação entre serviços e
-controladores feita através de Data Transfer Objects(DTO’s)
-
-![Imagem Padrão de Camadas](https://i.postimg.cc/nhr4wTWm/padrao-camadas.png)
 
 # Rotas
 
@@ -69,7 +65,7 @@ controladores feita através de Data Transfer Objects(DTO’s)
         ]
         ```
 
-- **GET →** /topics/results/{id}
+- **GET →** /topics/result/{id}
     - Busca o resultado da votação de um determinado tópico
     - Exemplo:
 
@@ -130,6 +126,7 @@ controladores feita através de Data Transfer Objects(DTO’s)
         ```
 
 # Como usar?
+
 ### 1. Clone o projeto
 
 ```markdown

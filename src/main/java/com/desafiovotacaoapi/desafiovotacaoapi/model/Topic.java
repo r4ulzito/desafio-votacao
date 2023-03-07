@@ -3,17 +3,18 @@ package com.desafiovotacaoapi.desafiovotacaoapi.model;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.topicDto.CreateTopicDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.Hibernate;
 
 import java.util.Objects;
 
 @Table(name = "tb_topics")
-@Entity(name = "Topic")
+@Entity
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Topic {
 
     @Id
@@ -26,23 +27,17 @@ public class Topic {
     @Column(nullable = false)
     private String description;
 
-    public Topic(CreateTopicDTO newTopic) {
-
-        this.title = newTopic.title();
-        this.description = newTopic.description();
-
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Topic topic = (Topic) o;
-        return getId() != null && Objects.equals(getId(), topic.getId());
+        return getId().equals(topic.getId()) && getTitle().equals(topic.getTitle()) && getDescription().equals(topic.getDescription());
     }
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return Objects.hash(getId(), getTitle(), getDescription());
     }
+
 }

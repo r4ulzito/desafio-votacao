@@ -41,7 +41,7 @@ class AssociateControllerTest {
     @DisplayName("Deve retornar status 201 quando associado for criado")
     public void createAssociateTest() throws Exception {
 
-        Associate expectAssociate = new Associate(null, "Associate1");
+        Associate expectAssociate = new Associate(1L, "Associate1");
 
         Mockito.when(associateServiceMock.createAssociate(Mockito.any(CreateAssociateDTO.class)))
                 .thenReturn(expectAssociate);
@@ -53,6 +53,7 @@ class AssociateControllerTest {
                         ).getJson())
                 )
                 .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").value("1"))
                 .andExpect(jsonPath("$.name").value("Associate1"));
 
     }

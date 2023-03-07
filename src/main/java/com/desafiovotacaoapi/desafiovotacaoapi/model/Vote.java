@@ -4,17 +4,18 @@ import com.desafiovotacaoapi.desafiovotacaoapi.dto.voteDto.CreateVoteDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.enums.Answer;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.Hibernate;
 
 import java.util.Objects;
 
 @Table(name = "tb_votes")
-@Entity(name = "Vote")
+@Entity
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Vote {
 
     @Id
@@ -33,24 +34,17 @@ public class Vote {
     @Enumerated(EnumType.STRING)
     private Answer answer;
 
-    public Vote(CreateVoteDTO newVote) {
-
-        this.answer = newVote.answer();
-        this.associate = newVote.associate();
-        this.topic = newVote.topic();
-
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Vote vote = (Vote) o;
-        return getId() != null && Objects.equals(getId(), vote.getId());
+        return getId().equals(vote.getId()) && getAssociate().equals(vote.getAssociate()) && getTopic().equals(vote.getTopic()) && getAnswer() == vote.getAnswer();
     }
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return Objects.hash(getId(), getAssociate(), getTopic(), getAnswer());
     }
+
 }

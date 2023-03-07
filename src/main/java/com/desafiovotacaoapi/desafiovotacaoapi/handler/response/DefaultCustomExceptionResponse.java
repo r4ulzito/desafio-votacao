@@ -1,5 +1,6 @@
-package com.desafiovotacaoapi.desafiovotacaoapi.service.exception;
+package com.desafiovotacaoapi.desafiovotacaoapi.handler.response;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.Instant;

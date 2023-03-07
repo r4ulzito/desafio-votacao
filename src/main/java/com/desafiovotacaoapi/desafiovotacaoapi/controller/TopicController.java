@@ -26,7 +26,9 @@ public class TopicController {
 
     @PostMapping
     public ResponseEntity<Topic> createTopic(@Valid @RequestBody CreateTopicDTO data) {
+
         return ResponseEntity.status(HttpStatus.CREATED).body(this.topicService.createTopic(data));
+
     }
 
     @GetMapping
@@ -36,7 +38,7 @@ public class TopicController {
 
     }
 
-    @GetMapping("/results/{id}")
+    @GetMapping("/result/{id}")
     public ResponseEntity<ResultTopicVotesDTO> getVotesResult(@PathVariable Long id) {
 
         return ResponseEntity.status(HttpStatus.OK).body(this.topicService.getVotesResult(id));

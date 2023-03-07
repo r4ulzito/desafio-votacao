@@ -1,6 +1,4 @@
-package com.desafiovotacaoapi.desafiovotacaoapi.service.validation;
-
-import com.desafiovotacaoapi.desafiovotacaoapi.service.exception.invalidDateEndException.InvalidDateEndException;
+package com.desafiovotacaoapi.desafiovotacaoapi.validation;
 
 import java.time.LocalDateTime;
 
@@ -12,8 +10,6 @@ public class ValidateNewSessionEndDate {
 
         if (endDate == null) {
             return today.plusMinutes(1);
-        } else if (endDate.isBefore(today)) {
-            throw new InvalidDateEndException("Invalid session ends date!");
         }
 
         return endDate;

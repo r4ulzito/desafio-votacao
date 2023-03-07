@@ -1,4 +1,4 @@
-package com.desafiovotacaoapi.desafiovotacaoapi.helper;
+package com.desafiovotacaoapi.desafiovotacaoapi.util;
 
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.topicDto.ResultTopicVotesDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Associate;

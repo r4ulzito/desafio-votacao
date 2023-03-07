@@ -1,4 +1,4 @@
-package com.desafiovotacaoapi.desafiovotacaoapi.service.exception.associateInvalidVoteException;
+package com.desafiovotacaoapi.desafiovotacaoapi.exception;
 
 public class AssociateInvalidVoteException extends RuntimeException {
 

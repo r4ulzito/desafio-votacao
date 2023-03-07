@@ -3,7 +3,8 @@ package com.desafiovotacaoapi.desafiovotacaoapi.service;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.topicDto.CreateTopicDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.topicDto.GetTopicDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.topicDto.ResultTopicVotesDTO;
-import com.desafiovotacaoapi.desafiovotacaoapi.service.exception.nullQueryResultException.NullQueryResultExcepetion;
+import com.desafiovotacaoapi.desafiovotacaoapi.exception.NullQueryResultExcepetion;
+import com.desafiovotacaoapi.desafiovotacaoapi.mapper.TopicMapper;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Associate;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Topic;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Vote;
@@ -57,7 +58,8 @@ class TopicServiceTest {
 
         CreateTopicDTO createTopicData = new CreateTopicDTO("Title1", "Description1");
 
-        Mockito.when(topicRepositoryMock.save(Mockito.any(Topic.class))).thenReturn(new Topic(createTopicData));
+        Mockito.when(topicRepositoryMock.save(Mockito.any(Topic.class)))
+                .thenReturn(TopicMapper.buildTopic(createTopicData));
 
         Topic createdTopic = this.service.createTopic(createTopicData);
 

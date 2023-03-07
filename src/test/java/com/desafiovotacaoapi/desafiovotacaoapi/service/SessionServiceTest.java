@@ -4,10 +4,10 @@ import com.desafiovotacaoapi.desafiovotacaoapi.dto.sessionDto.CreateSessionDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.sessionDto.GetSessionDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.sessionDto.SessionVoteRequestDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.voteDto.CreateVoteDTO;
-import com.desafiovotacaoapi.desafiovotacaoapi.service.exception.associateInvalidVoteException.AssociateInvalidVoteException;
-import com.desafiovotacaoapi.desafiovotacaoapi.service.exception.invalidDateEndException.InvalidDateEndException;
-import com.desafiovotacaoapi.desafiovotacaoapi.service.exception.nullQueryResultException.NullQueryResultExcepetion;
-import com.desafiovotacaoapi.desafiovotacaoapi.service.exception.sessionClosedException.SessionClosedException;
+import com.desafiovotacaoapi.desafiovotacaoapi.exception.AssociateInvalidVoteException;
+import com.desafiovotacaoapi.desafiovotacaoapi.exception.NullQueryResultExcepetion;
+import com.desafiovotacaoapi.desafiovotacaoapi.exception.SessionClosedException;
+import com.desafiovotacaoapi.desafiovotacaoapi.mapper.VoteMapper;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Associate;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Session;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Topic;
@@ -48,16 +48,20 @@ class SessionServiceTest {
     @BeforeEach
     public void beforeEach() {
         MockitoAnnotations.openMocks(this);
-        this.sessionService = new SessionService(sessionRepositoryMock, associateServiceMock, topicServiceMock, voteServiceMock);
+        this.sessionService = new SessionService(
+                sessionRepositoryMock,
+                associateServiceMock,
+                topicServiceMock,
+                voteServiceMock);
     }
 
     private List<Session> listSessions() {
         List<Session> list = new ArrayList<>();
-        LocalDateTime nowLocalTimeDate = LocalDateTime.now();
+        LocalDateTime nowTimeDate = LocalDateTime.now();
 
-        list.add(new Session(1L, new Topic(1L, "Title1", "Description1"), nowLocalTimeDate, nowLocalTimeDate.plusHours(1), true));
-        list.add(new Session(2L, new Topic(2L, "Title2", "Description2"), nowLocalTimeDate, nowLocalTimeDate.plusHours(1), true));
-        list.add(new Session(3L, new Topic(3L, "Title3", "Description3"), nowLocalTimeDate, nowLocalTimeDate.plusHours(1), false));
+        list.add(new Session(1L, new Topic(1L, "Title1", "Description1"), nowTimeDate, nowTimeDate.plusHours(1), true));
+        list.add(new Session(2L, new Topic(2L, "Title2", "Description2"), nowTimeDate, nowTimeDate.plusHours(1), true));
+        list.add(new Session(3L, new Topic(3L, "Title3", "Description3"), nowTimeDate, nowTimeDate.plusHours(1), false));
 
         return list;
     }
@@ -65,14 +69,15 @@ class SessionServiceTest {
     @Test
     @DisplayName("Deve criar um session")
     public void createSessionTest() {
-        LocalDateTime nowLocalTimeDate = LocalDateTime.now();
+        LocalDateTime nowTimeDate = LocalDateTime.now();
 
-        CreateSessionDTO createSessionData = new CreateSessionDTO(nowLocalTimeDate.plusHours(2), 1L);
+        CreateSessionDTO createSessionData = new CreateSessionDTO(nowTimeDate.plusHours(2), 1L);
         Topic fakeTopic = new Topic(1L, "Title1", "Description1");
 
         Mockito.when(this.topicServiceMock.getTopicById(createSessionData.topic_id())).thenReturn(fakeTopic);
 
-        Mockito.when(sessionRepositoryMock.save(Mockito.any(Session.class))).thenReturn(new Session(1L, fakeTopic, nowLocalTimeDate, nowLocalTimeDate.plusHours(2), true));
+        Mockito.when(sessionRepositoryMock.save(Mockito.any(Session.class)))
+                .thenReturn(new Session(1L, fakeTopic, nowTimeDate, nowTimeDate.plusHours(2), true));
 
         Session createdSession = this.sessionService.createSession(createSessionData);
 
@@ -89,37 +94,19 @@ class SessionServiceTest {
     @Test
     @DisplayName("Deve lançar uma exceção caso o id do topico seja inválido")
     public void createSessionWithInexistentTopicIdTest() {
-        LocalDateTime nowLocalTimeDate = LocalDateTime.now();
+        LocalDateTime nowTimeDate = LocalDateTime.now();
 
-        CreateSessionDTO createSessionData = new CreateSessionDTO(nowLocalTimeDate.plusHours(2), 1L);
+        CreateSessionDTO createSessionData = new CreateSessionDTO(nowTimeDate.plusHours(2), 1L);
         Topic fakeTopic = new Topic(1L, "Title1", "Description1");
 
-        Mockito.when(this.topicServiceMock.getTopicById(createSessionData.topic_id())).thenThrow(new NullPointerException("Topic not found!"));
+        Mockito.when(this.topicServiceMock.getTopicById(createSessionData.topic_id()))
+                .thenThrow(new NullPointerException("Topic not found!"));
 
         try {
             Session createdSession = this.sessionService.createSession(createSessionData);
             Mockito.verifyNoInteractions();
         } catch (NullPointerException ex) {
             assertEquals(ex.getMessage(), "Topic not found!");
-        }
-
-    }
-
-    @Test
-    @DisplayName("Deve lançar uma exceção caso a data de encerramento da sessao seja inválida")
-    public void createSessionWithInvalidEndDateTest() {
-        LocalDateTime nowLocalTimeDate = LocalDateTime.now();
-
-        CreateSessionDTO createSessionData = new CreateSessionDTO(nowLocalTimeDate.minusHours(1), 1L);
-        Topic fakeTopic = new Topic(1L, "Title1", "Description1");
-
-        Mockito.when(this.topicServiceMock.getTopicById(createSessionData.topic_id())).thenReturn(fakeTopic);
-
-        try {
-            Session createdSession = this.sessionService.createSession(createSessionData);
-            Mockito.verifyNoInteractions(topicServiceMock);
-        } catch (InvalidDateEndException ex) {
-            assertEquals(ex.getMessage(), "Invalid session ends date!");
         }
 
     }
@@ -202,7 +189,8 @@ class SessionServiceTest {
         Mockito.when(topicServiceMock.getTopicById(1L)).thenReturn(fakeTopic);
         Mockito.when(voteServiceMock.getAllByTopicId(1L)).thenReturn(new ArrayList<>());
 
-        Mockito.when(voteServiceMock.createVote(createSessionVoteDATA)).thenReturn(new Vote(createSessionVoteDATA));
+        Mockito.when(voteServiceMock.createVote(createSessionVoteDATA))
+                .thenReturn(VoteMapper.buildVote(createSessionVoteDATA));
 
         Vote createdSessionVote = this.sessionService.newVote(new SessionVoteRequestDTO(1L, 1L, Answer.YES));
 
@@ -249,8 +237,8 @@ class SessionServiceTest {
     @Test
     @DisplayName("Deve lançar uma exceção caso a data atual seja maior que a data de encerramento da sessão")
     public void newVoteWithDataEndOutDatedltSessionTest() {
-        LocalDateTime nowLocalTimeDate = LocalDateTime.now();
-        Session fakeSession = new Session(1L, new Topic(), nowLocalTimeDate, nowLocalTimeDate.minusHours(1), true);
+        LocalDateTime nowTimeDate = LocalDateTime.now();
+        Session fakeSession = new Session(1L, new Topic(), nowTimeDate, nowTimeDate.minusHours(1), true);
 
         Mockito.when(sessionRepositoryMock.findById(1L)).thenReturn(Optional.of(fakeSession));
 
@@ -268,7 +256,8 @@ class SessionServiceTest {
         List<Session> sessionList = listSessions();
 
         Mockito.when(sessionRepositoryMock.findById(1L)).thenReturn(Optional.ofNullable(sessionList.get(0)));
-        Mockito.when(associateServiceMock.getAssociateByID(1L)).thenThrow(new NullQueryResultExcepetion("Associate not found!"));
+        Mockito.when(associateServiceMock.getAssociateByID(1L))
+                .thenThrow(new NullQueryResultExcepetion("Associate not found!"));
 
         try {
             Vote createdSessionVote = this.sessionService.newVote(new SessionVoteRequestDTO(1L, 1L, Answer.YES));

@@ -3,17 +3,16 @@ package com.desafiovotacaoapi.desafiovotacaoapi.service;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.topicDto.CreateTopicDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.topicDto.GetTopicDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.topicDto.ResultTopicVotesDTO;
-import com.desafiovotacaoapi.desafiovotacaoapi.service.exception.nullQueryResultException.NullQueryResultExcepetion;
-import com.desafiovotacaoapi.desafiovotacaoapi.helper.VotesCounterHelper;
+import com.desafiovotacaoapi.desafiovotacaoapi.exception.NullQueryResultExcepetion;
+import com.desafiovotacaoapi.desafiovotacaoapi.mapper.TopicMapper;
+import com.desafiovotacaoapi.desafiovotacaoapi.util.VotesCounterHelper;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Topic;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Vote;
 import com.desafiovotacaoapi.desafiovotacaoapi.repository.TopicRepository;
-import com.desafiovotacaoapi.desafiovotacaoapi.service.validation.ValidateQueryIsNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TopicService {
@@ -27,16 +26,15 @@ public class TopicService {
         this.voteService = voteService;
     }
 
-    public Topic createTopic(CreateTopicDTO newTopic) {
-        return this.topicRepository.save(new Topic(newTopic));
+    public Topic createTopic(CreateTopicDTO topicDTO) {
+
+        return this.topicRepository.save(TopicMapper.buildTopic(topicDTO));
     }
 
     public Topic getTopicById(Long topicId) {
-        Optional<Topic> topic = this.topicRepository.findById(topicId);
 
-        ValidateQueryIsNull.queryIsNull(topic, "Topic not found!");
-
-        return topic.get();
+        return this.topicRepository.findById(topicId)
+                .orElseThrow(() -> new NullQueryResultExcepetion("Topic not found!"));
     }
 
     public List<GetTopicDTO> getAllTopics() {

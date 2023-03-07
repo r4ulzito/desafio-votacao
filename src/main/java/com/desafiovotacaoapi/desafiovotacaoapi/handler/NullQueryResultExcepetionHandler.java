@@ -1,6 +1,7 @@
-package com.desafiovotacaoapi.desafiovotacaoapi.service.exception.nullQueryResultException;
+package com.desafiovotacaoapi.desafiovotacaoapi.handler;
 
-import com.desafiovotacaoapi.desafiovotacaoapi.service.exception.DefaultCustomExceptionResponse;
+import com.desafiovotacaoapi.desafiovotacaoapi.exception.NullQueryResultExcepetion;
+import com.desafiovotacaoapi.desafiovotacaoapi.handler.response.DefaultCustomExceptionResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

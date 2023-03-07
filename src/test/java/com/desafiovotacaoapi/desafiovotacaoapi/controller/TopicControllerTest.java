@@ -3,8 +3,8 @@ package com.desafiovotacaoapi.desafiovotacaoapi.controller;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.topicDto.CreateTopicDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.topicDto.GetTopicDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.topicDto.ResultTopicVotesDTO;
-import com.desafiovotacaoapi.desafiovotacaoapi.service.exception.nullQueryResultException.NullQueryResultExcepetion;
-import com.desafiovotacaoapi.desafiovotacaoapi.model.Topic;
+import com.desafiovotacaoapi.desafiovotacaoapi.exception.NullQueryResultExcepetion;
+import com.desafiovotacaoapi.desafiovotacaoapi.mapper.TopicMapper;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.enums.TopicVotesResult;
 import com.desafiovotacaoapi.desafiovotacaoapi.service.TopicService;
 import org.junit.jupiter.api.DisplayName;
@@ -47,7 +47,7 @@ class TopicControllerTest {
         CreateTopicDTO createTopicData = new CreateTopicDTO("Title1", "Description1");
 
         Mockito.when(topicServiceMock.createTopic(createTopicData))
-                .thenReturn(new Topic(createTopicData));
+                .thenReturn(TopicMapper.buildTopic(createTopicData));
 
         mvc.perform(post("/topics")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -142,7 +142,7 @@ class TopicControllerTest {
 
         Mockito.when(topicServiceMock.getVotesResult(1L)).thenReturn(resultVoteData);
 
-        mvc.perform(get("/topics/results/1")
+        mvc.perform(get("/topics/result/1")
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isOk())
@@ -159,7 +159,7 @@ class TopicControllerTest {
 
         Mockito.when(topicServiceMock.getVotesResult(2L)).thenThrow(new NullQueryResultExcepetion("No votes registered!"));
 
-        mvc.perform(get("/topics/results/2")
+        mvc.perform(get("/topics/result/2")
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isBadRequest())

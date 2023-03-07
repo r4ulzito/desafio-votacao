@@ -3,10 +3,9 @@ package com.desafiovotacaoapi.desafiovotacaoapi.controller;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.sessionDto.CreateSessionDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.sessionDto.GetSessionDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.sessionDto.SessionVoteRequestDTO;
-import com.desafiovotacaoapi.desafiovotacaoapi.service.exception.associateInvalidVoteException.AssociateInvalidVoteException;
-import com.desafiovotacaoapi.desafiovotacaoapi.service.exception.invalidDateEndException.InvalidDateEndException;
-import com.desafiovotacaoapi.desafiovotacaoapi.service.exception.nullQueryResultException.NullQueryResultExcepetion;
-import com.desafiovotacaoapi.desafiovotacaoapi.service.exception.sessionClosedException.SessionClosedException;
+import com.desafiovotacaoapi.desafiovotacaoapi.exception.AssociateInvalidVoteException;
+import com.desafiovotacaoapi.desafiovotacaoapi.exception.NullQueryResultExcepetion;
+import com.desafiovotacaoapi.desafiovotacaoapi.exception.SessionClosedException;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Associate;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Session;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Topic;
@@ -194,14 +193,11 @@ class SessionControllerTest {
     }
 
     @Test
-    @DisplayName("Deve retornar status 400 caso o tempo de encerramento da sessão enviada seja anterior ao de início")
+    @DisplayName("Deve retornar status 400 caso o tempo de encerramento da sessão enviada seja anterior a data atual")
     public void createSessionWithInvalidSessionEndDateTest() throws Exception {
 
         LocalDateTime nowLocalDateTime = LocalDateTime.now().withNano(0);
         CreateSessionDTO createSessionData = new CreateSessionDTO(nowLocalDateTime.minusHours(2), 1L);
-
-        Mockito.when(sessionServiceMock.createSession(createSessionData))
-                .thenThrow(new InvalidDateEndException("Invalid session ends date!"));
 
         mvc.perform(post("/sessions")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -210,7 +206,7 @@ class SessionControllerTest {
                         ).getJson())
                 )
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value("Invalid session ends date!"))
+                .andExpect(jsonPath("$.message").value("End date must be a future date!"))
                 .andExpect(jsonPath("$.status").value("400"));
 
     }

@@ -4,21 +4,21 @@ import com.desafiovotacaoapi.desafiovotacaoapi.dto.sessionDto.CreateSessionDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.sessionDto.GetSessionDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.sessionDto.SessionVoteRequestDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.voteDto.CreateVoteDTO;
-import com.desafiovotacaoapi.desafiovotacaoapi.service.exception.sessionClosedException.SessionClosedException;
+import com.desafiovotacaoapi.desafiovotacaoapi.exception.NullQueryResultExcepetion;
+import com.desafiovotacaoapi.desafiovotacaoapi.exception.SessionClosedException;
+import com.desafiovotacaoapi.desafiovotacaoapi.mapper.SessionMapper;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Associate;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Session;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Topic;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Vote;
 import com.desafiovotacaoapi.desafiovotacaoapi.repository.SessionRepository;
-import com.desafiovotacaoapi.desafiovotacaoapi.service.validation.ValidateNewSessionEndDate;
-import com.desafiovotacaoapi.desafiovotacaoapi.service.validation.ValidateQueryIsNull;
-import com.desafiovotacaoapi.desafiovotacaoapi.service.validation.ValidateVoteAssociate;
+import com.desafiovotacaoapi.desafiovotacaoapi.validation.ValidateNewSessionEndDate;
+import com.desafiovotacaoapi.desafiovotacaoapi.validation.ValidateVoteAssociate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SessionService {
@@ -36,26 +36,26 @@ public class SessionService {
         this.voteService = voteService;
     }
 
-    public Session createSession(CreateSessionDTO newSession) {
+    public Session createSession(CreateSessionDTO sessionDTO) {
 
-        Topic targetTopic = this.topicService.getTopicById(newSession.topic_id());
+        Topic targetTopic = this.topicService.getTopicById(sessionDTO.topic_id());
 
-        LocalDateTime dataEnd = ValidateNewSessionEndDate.validateEndDate(newSession.data_end());
+        LocalDateTime dataEnd = ValidateNewSessionEndDate.validateEndDate(sessionDTO.data_end());
 
-        return this.sessionRepository.save(new Session(dataEnd, targetTopic));
+        return this.sessionRepository.save(SessionMapper.buildSession(dataEnd, targetTopic));
 
     }
 
     public List<GetSessionDTO> getAllSessions() {
+
         return this.sessionRepository.findAll().stream().map(GetSessionDTO::new).toList();
     }
 
     public Session getSessionById(Long sessionId) {
 
-        Optional<Session> session = this.sessionRepository.findById(sessionId);
-        ValidateQueryIsNull.queryIsNull(session, "Session not found!");
+        return this.sessionRepository.findById(sessionId)
+                .orElseThrow(() -> new NullQueryResultExcepetion("Session not found!"));
 
-        return session.get();
     }
 
     public Vote newVote(SessionVoteRequestDTO newSessionVote) {

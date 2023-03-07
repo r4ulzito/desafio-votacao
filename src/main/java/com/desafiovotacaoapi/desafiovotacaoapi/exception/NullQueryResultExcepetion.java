@@ -1,4 +1,4 @@
-package com.desafiovotacaoapi.desafiovotacaoapi.service.exception.nullQueryResultException;
+package com.desafiovotacaoapi.desafiovotacaoapi.exception;
 
 public class NullQueryResultExcepetion extends RuntimeException {
 

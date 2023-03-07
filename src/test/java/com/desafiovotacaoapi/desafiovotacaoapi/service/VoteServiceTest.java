@@ -1,6 +1,7 @@
 package com.desafiovotacaoapi.desafiovotacaoapi.service;
 
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.voteDto.CreateVoteDTO;
+import com.desafiovotacaoapi.desafiovotacaoapi.mapper.VoteMapper;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Associate;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Topic;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Vote;
@@ -50,7 +51,8 @@ class VoteServiceTest {
         Topic fakeTopic = new Topic(1L, "FakeTitle", "FakeDescription");
         CreateVoteDTO createVoteData = new CreateVoteDTO(Answer.YES, fakeAssociate, fakeTopic);
 
-        Mockito.when(voteRepositoryMock.save(Mockito.any(Vote.class))).thenReturn(new Vote(createVoteData));
+        Mockito.when(voteRepositoryMock.save(Mockito.any(Vote.class)))
+                .thenReturn(VoteMapper.buildVote(createVoteData));
 
         Vote createdVote = this.service.createVote(createVoteData);
 

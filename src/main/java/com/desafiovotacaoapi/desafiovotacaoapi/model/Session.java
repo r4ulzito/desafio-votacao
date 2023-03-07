@@ -2,19 +2,19 @@ package com.desafiovotacaoapi.desafiovotacaoapi.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import org.hibernate.Hibernate;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Table(name = "tb_sessions")
-@Entity(name = "Session")
+@Entity
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Session {
 
     @Id
@@ -32,14 +32,8 @@ public class Session {
     private LocalDateTime dataEnd;
 
     @Column(name = "is_open", nullable = false)
-    private boolean isOpen;
-
-    public Session(LocalDateTime dataEnd, Topic topic) {
-        this.dataStart = LocalDateTime.now();
-        this.dataEnd = dataEnd;
-        this.topic = topic;
-        this.isOpen = true;
-    }
+    @Builder.Default
+    private boolean isOpen = true;
 
     public void setOpen(boolean open) {
         this.isOpen = open;
@@ -48,15 +42,16 @@ public class Session {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Session session = (Session) o;
-        return id != null && Objects.equals(id, session.id);
+        return isOpen() == session.isOpen() && getId().equals(session.getId()) && getTopic().equals(session.getTopic()) && getDataStart().equals(session.getDataStart()) && getDataEnd().equals(session.getDataEnd());
     }
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return Objects.hash(getId(), getTopic(), getDataStart(), getDataEnd(), isOpen());
     }
+
 }
 
 

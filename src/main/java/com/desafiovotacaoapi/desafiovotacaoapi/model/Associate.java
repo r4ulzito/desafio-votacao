@@ -3,17 +3,18 @@ package com.desafiovotacaoapi.desafiovotacaoapi.model;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.associateDto.CreateAssociateDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.Hibernate;
 
 import java.util.Objects;
 
 @Table(name = "tb_associates")
-@Entity(name = "Associate")
+@Entity
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Associate {
 
     @Id
@@ -23,22 +24,17 @@ public class Associate {
     @Column(nullable = false)
     private String name;
 
-    public Associate(CreateAssociateDTO newAssociate) {
-
-        this.name = newAssociate.name();
-
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Associate associate = (Associate) o;
-        return getId() != null && Objects.equals(getId(), associate.getId());
+        return getId().equals(associate.getId()) && getName().equals(associate.getName());
     }
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return Objects.hash(getId(), getName());
     }
+
 }
