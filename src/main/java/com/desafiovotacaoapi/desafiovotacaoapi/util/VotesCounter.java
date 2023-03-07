@@ -8,7 +8,7 @@ import com.desafiovotacaoapi.desafiovotacaoapi.model.enums.TopicVotesResult;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class VotesCounterHelper {
+public class VotesCounter {
 
     public static ResultTopicVotesDTO countVotes(List<Vote> topicVotes) {
 

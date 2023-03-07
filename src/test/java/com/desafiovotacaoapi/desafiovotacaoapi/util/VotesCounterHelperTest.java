@@ -26,7 +26,7 @@ class VotesCounterHelperTest {
         listVotes.add(new Vote(2L, new Associate(), new Topic(), Answer.YES));
         listVotes.add(new Vote(3L, new Associate(), new Topic(), Answer.NO));
 
-        ResultTopicVotesDTO result = VotesCounterHelper.countVotes(listVotes);
+        ResultTopicVotesDTO result = VotesCounter.countVotes(listVotes);
 
         assertEquals(result.totalVotes(), 3);
         assertEquals(result.yesVotes(), 2);
@@ -45,7 +45,7 @@ class VotesCounterHelperTest {
         listVotes.add(new Vote(2L, new Associate(), new Topic(), Answer.NO));
         listVotes.add(new Vote(3L, new Associate(), new Topic(), Answer.NO));
 
-        ResultTopicVotesDTO result = VotesCounterHelper.countVotes(listVotes);
+        ResultTopicVotesDTO result = VotesCounter.countVotes(listVotes);
 
         assertEquals(result.totalVotes(), 3);
         assertEquals(result.yesVotes(), 1);
@@ -63,7 +63,7 @@ class VotesCounterHelperTest {
         listVotes.add(new Vote(1L, new Associate(), new Topic(), Answer.YES));
         listVotes.add(new Vote(2L, new Associate(), new Topic(), Answer.NO));
 
-        ResultTopicVotesDTO result = VotesCounterHelper.countVotes(listVotes);
+        ResultTopicVotesDTO result = VotesCounter.countVotes(listVotes);
 
         assertEquals(result.totalVotes(), 2);
         assertEquals(result.yesVotes(), 1);

@@ -7,7 +7,7 @@ import com.desafiovotacaoapi.desafiovotacaoapi.exception.NullQueryResultExcepeti
 import com.desafiovotacaoapi.desafiovotacaoapi.mapper.TopicMapper;
 import com.desafiovotacaoapi.desafiovotacaoapi.service.TopicService;
 import com.desafiovotacaoapi.desafiovotacaoapi.service.VoteService;
-import com.desafiovotacaoapi.desafiovotacaoapi.util.VotesCounterHelper;
+import com.desafiovotacaoapi.desafiovotacaoapi.util.VotesCounter;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Topic;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Vote;
 import com.desafiovotacaoapi.desafiovotacaoapi.repository.TopicRepository;
@@ -51,7 +51,7 @@ public class TopicServiceImplements implements TopicService {
             throw new NullQueryResultExcepetion("No votes registered!");
         }
 
-        return VotesCounterHelper.countVotes(targetTopicVotes);
+        return VotesCounter.countVotes(targetTopicVotes);
 
     }
 

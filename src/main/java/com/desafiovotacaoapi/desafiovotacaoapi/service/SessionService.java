@@ -16,6 +16,6 @@ public interface SessionService {
 
     Session getSessionById(Long sessionId);
 
-    Vote newVote(SessionVoteRequestDTO newSessionVote);
+    Vote newVote(SessionVoteRequestDTO sessionVoteRequestDTO);
 
 }

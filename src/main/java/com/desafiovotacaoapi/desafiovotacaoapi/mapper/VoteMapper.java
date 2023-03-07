@@ -5,11 +5,11 @@ import com.desafiovotacaoapi.desafiovotacaoapi.model.Vote;
 
 public interface VoteMapper {
 
-    static Vote buildVote(CreateVoteDTO votoDTO) {
+    static Vote buildVote(CreateVoteDTO voteDTO) {
         return Vote.builder()
-                .topic(votoDTO.topic())
-                .associate(votoDTO.associate())
-                .answer(votoDTO.answer())
+                .topic(voteDTO.topic())
+                .associate(voteDTO.associate())
+                .answer(voteDTO.answer())
                 .build();
     }
 

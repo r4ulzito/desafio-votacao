@@ -1,6 +1,5 @@
 package com.desafiovotacaoapi.desafiovotacaoapi.model;
 
-import com.desafiovotacaoapi.desafiovotacaoapi.dto.topicDto.CreateTopicDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,7 +31,9 @@ public class Topic {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Topic topic = (Topic) o;
-        return Objects.equals(getId(), topic.getId()) && Objects.equals(getTitle(), topic.getTitle()) && Objects.equals(getDescription(), topic.getDescription());
+        return Objects.equals(getId(), topic.getId())
+                && Objects.equals(getTitle(), topic.getTitle())
+                && Objects.equals(getDescription(), topic.getDescription());
     }
 
     @Override

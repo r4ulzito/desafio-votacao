@@ -1,6 +1,5 @@
 package com.desafiovotacaoapi.desafiovotacaoapi.model;
 
-import com.desafiovotacaoapi.desafiovotacaoapi.dto.voteDto.CreateVoteDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.enums.Answer;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -39,7 +38,10 @@ public class Vote {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Vote vote = (Vote) o;
-        return Objects.equals(getId(), vote.getId()) && Objects.equals(getAssociate(), vote.getAssociate()) && Objects.equals(getTopic(), vote.getTopic()) && getAnswer() == vote.getAnswer();
+        return Objects.equals(getId(), vote.getId())
+                && Objects.equals(getAssociate(), vote.getAssociate())
+                && Objects.equals(getTopic(), vote.getTopic())
+                && getAnswer() == vote.getAnswer();
     }
 
     @Override

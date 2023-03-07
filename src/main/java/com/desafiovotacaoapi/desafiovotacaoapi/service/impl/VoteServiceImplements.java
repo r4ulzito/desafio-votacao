@@ -20,9 +20,9 @@ public class VoteServiceImplements implements VoteService {
         this.voteRepository = voteRepository;
     }
 
-    public Vote createVote(CreateVoteDTO newVote) {
+    public Vote createVote(CreateVoteDTO voteDTO) {
 
-        return this.voteRepository.save(VoteMapper.buildVote(newVote));
+        return this.voteRepository.save(VoteMapper.buildVote(voteDTO));
     }
 
     public List<Vote> getAllByTopicId(Long topicId) {

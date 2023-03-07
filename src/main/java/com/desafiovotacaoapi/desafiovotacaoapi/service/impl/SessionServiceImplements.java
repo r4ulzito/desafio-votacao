@@ -62,9 +62,9 @@ public class SessionServiceImplements implements SessionService {
 
     }
 
-    public Vote newVote(SessionVoteRequestDTO newSessionVote) {
+    public Vote newVote(SessionVoteRequestDTO sessionVoteRequestDTO) {
 
-        Session targetSession = this.getSessionById(newSessionVote.session_id());
+        Session targetSession = this.getSessionById(sessionVoteRequestDTO.session_id());
 
         if (!targetSession.isOpen() || LocalDateTime.now().isAfter(targetSession.getDataEnd())) {
             targetSession.setOpen(false);
@@ -72,14 +72,14 @@ public class SessionServiceImplements implements SessionService {
             throw new SessionClosedException("Session is closed!");
         }
 
-        Associate targetAssociate = this.associateService.getAssociateByID(newSessionVote.associate_id());
+        Associate targetAssociate = this.associateService.getAssociateByID(sessionVoteRequestDTO.associate_id());
         Topic targetTopic = this.topicService.getTopicById(targetSession.getTopic().getId());
 
         List<Vote> targetTopicVotes = this.voteService.getAllByTopicId(targetTopic.getId());
 
         ValidateVoteAssociate.validateAssociateCanVote(targetTopicVotes, targetAssociate);
 
-        return this.voteService.createVote(new CreateVoteDTO(newSessionVote.answer(), targetAssociate, targetTopic));
+        return this.voteService.createVote(new CreateVoteDTO(sessionVoteRequestDTO.answer(), targetAssociate, targetTopic));
     }
 
 }

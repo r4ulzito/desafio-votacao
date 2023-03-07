@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface VoteService {
 
-    Vote createVote(CreateVoteDTO newVote);
+    Vote createVote(CreateVoteDTO voteDTO);
 
     List<Vote> getAllByTopicId(Long topicId);
 
