@@ -1,31 +1,14 @@
 package com.desafiovotacaoapi.desafiovotacaoapi.service;
 
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.voteDto.CreateVoteDTO;
-import com.desafiovotacaoapi.desafiovotacaoapi.mapper.VoteMapper;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Vote;
-import com.desafiovotacaoapi.desafiovotacaoapi.repository.VoteRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class VoteService {
+public interface VoteService {
 
-    private final VoteRepository voteRepository;
+    Vote createVote(CreateVoteDTO newVote);
 
-    @Autowired
-    public VoteService(VoteRepository voteRepository) {
-        this.voteRepository = voteRepository;
-    }
-
-    public Vote createVote(CreateVoteDTO newVote) {
-
-        return this.voteRepository.save(VoteMapper.buildVote(newVote));
-    }
-
-    public List<Vote> getAllByTopicId(Long topicId) {
-        return this.voteRepository.findAllByTopicId(topicId);
-    }
+    List<Vote> getAllByTopicId(Long topicId);
 
 }

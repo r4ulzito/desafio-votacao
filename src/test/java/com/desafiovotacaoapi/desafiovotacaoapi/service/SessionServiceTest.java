@@ -14,6 +14,7 @@ import com.desafiovotacaoapi.desafiovotacaoapi.model.Topic;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Vote;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.enums.Answer;
 import com.desafiovotacaoapi.desafiovotacaoapi.repository.SessionRepository;
+import com.desafiovotacaoapi.desafiovotacaoapi.service.impl.SessionServiceImplements;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SessionServiceTest {
 
-    private SessionService sessionService;
+    private SessionServiceImplements sessionService;
 
     @Captor
     private ArgumentCaptor<Session> captor;
@@ -48,7 +49,7 @@ class SessionServiceTest {
     @BeforeEach
     public void beforeEach() {
         MockitoAnnotations.openMocks(this);
-        this.sessionService = new SessionService(
+        this.sessionService = new SessionServiceImplements(
                 sessionRepositoryMock,
                 associateServiceMock,
                 topicServiceMock,

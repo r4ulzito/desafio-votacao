@@ -6,6 +6,7 @@ import com.desafiovotacaoapi.desafiovotacaoapi.exception.NullQueryResultExcepeti
 import com.desafiovotacaoapi.desafiovotacaoapi.mapper.AssociateMapper;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Associate;
 import com.desafiovotacaoapi.desafiovotacaoapi.repository.AssociateRepository;
+import com.desafiovotacaoapi.desafiovotacaoapi.service.impl.AssociateServiceImplements;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AssociateServiceTest {
 
-    private AssociateService service;
+    private AssociateServiceImplements service;
 
     @Captor
     private ArgumentCaptor<Associate> captor;
@@ -30,7 +31,7 @@ class AssociateServiceTest {
     @BeforeEach
     public void beforeEach() {
         MockitoAnnotations.openMocks(this);
-        this.service = new AssociateService(associateRepositoryMock);
+        this.service = new AssociateServiceImplements(associateRepositoryMock);
     }
 
     private List<Associate> associatesList() {

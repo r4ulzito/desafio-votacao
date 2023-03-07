@@ -7,6 +7,7 @@ import com.desafiovotacaoapi.desafiovotacaoapi.model.Topic;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Vote;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.enums.Answer;
 import com.desafiovotacaoapi.desafiovotacaoapi.repository.VoteRepository;
+import com.desafiovotacaoapi.desafiovotacaoapi.service.impl.VoteServiceImplements;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class VoteServiceTest {
 
-    private VoteService service;
+    private VoteServiceImplements service;
 
     @Captor
     private ArgumentCaptor<Vote> captor;
@@ -30,7 +31,7 @@ class VoteServiceTest {
     @BeforeEach
     public void beforeEach() {
         MockitoAnnotations.openMocks(this);
-        this.service = new VoteService(voteRepositoryMock);
+        this.service = new VoteServiceImplements(voteRepositoryMock);
     }
 
     private List<Vote> listVotes() {
