@@ -1,6 +1,5 @@
 package com.desafiovotacaoapi.desafiovotacaoapi.model;
 
-import com.desafiovotacaoapi.desafiovotacaoapi.dto.associateDto.CreateAssociateDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,12 +28,11 @@ public class Associate {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Associate associate = (Associate) o;
-        return getId().equals(associate.getId()) && getName().equals(associate.getName());
+        return Objects.equals(getId(), associate.getId()) && Objects.equals(getName(), associate.getName());
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getName());
     }
-
 }

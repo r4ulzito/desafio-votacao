@@ -44,14 +44,13 @@ public class Session {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Session session = (Session) o;
-        return isOpen() == session.isOpen() && getId().equals(session.getId()) && getTopic().equals(session.getTopic()) && getDataStart().equals(session.getDataStart()) && getDataEnd().equals(session.getDataEnd());
+        return isOpen() == session.isOpen() && Objects.equals(getId(), session.getId()) && Objects.equals(getTopic(), session.getTopic()) && Objects.equals(getDataStart(), session.getDataStart()) && Objects.equals(getDataEnd(), session.getDataEnd());
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getTopic(), getDataStart(), getDataEnd(), isOpen());
     }
-
 }
 
 

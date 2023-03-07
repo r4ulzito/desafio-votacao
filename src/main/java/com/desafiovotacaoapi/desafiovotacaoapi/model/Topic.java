@@ -32,12 +32,11 @@ public class Topic {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Topic topic = (Topic) o;
-        return getId().equals(topic.getId()) && getTitle().equals(topic.getTitle()) && getDescription().equals(topic.getDescription());
+        return Objects.equals(getId(), topic.getId()) && Objects.equals(getTitle(), topic.getTitle()) && Objects.equals(getDescription(), topic.getDescription());
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getTitle(), getDescription());
     }
-
 }

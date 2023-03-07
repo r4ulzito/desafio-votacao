@@ -39,12 +39,11 @@ public class Vote {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Vote vote = (Vote) o;
-        return getId().equals(vote.getId()) && getAssociate().equals(vote.getAssociate()) && getTopic().equals(vote.getTopic()) && getAnswer() == vote.getAnswer();
+        return Objects.equals(getId(), vote.getId()) && Objects.equals(getAssociate(), vote.getAssociate()) && Objects.equals(getTopic(), vote.getTopic()) && getAnswer() == vote.getAnswer();
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getAssociate(), getTopic(), getAnswer());
     }
-
 }
