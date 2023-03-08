@@ -5,6 +5,7 @@ import com.desafiovotacaoapi.desafiovotacaoapi.dto.sessionDto.GetSessionDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.sessionDto.SessionVoteRequestDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.voteDto.CreateVoteDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.exception.AssociateInvalidVoteException;
+import com.desafiovotacaoapi.desafiovotacaoapi.exception.InvalidTopicException;
 import com.desafiovotacaoapi.desafiovotacaoapi.exception.NullQueryResultExcepetion;
 import com.desafiovotacaoapi.desafiovotacaoapi.exception.SessionClosedException;
 import com.desafiovotacaoapi.desafiovotacaoapi.mapper.VoteMapper;
@@ -105,9 +106,37 @@ class SessionServiceTest {
 
         try {
             Session createdSession = this.sessionService.createSession(createSessionData);
-            Mockito.verifyNoInteractions();
+            Mockito.verifyNoInteractions(topicServiceMock);
         } catch (NullPointerException ex) {
             assertEquals(ex.getMessage(), "Topic not found!");
+        }
+
+    }
+
+    @Test
+    @DisplayName("Deve lançar uma exceção caso ja exista uma sessão referente ao tópico aberta")
+    public void createSessionWithUnavailableTopicTest() {
+        LocalDateTime nowTimeDate = LocalDateTime.now();
+
+        CreateSessionDTO createSessionData = new CreateSessionDTO(nowTimeDate.plusHours(2), 1L);
+        List<Session> topicSessionList = new ArrayList<>();
+        topicSessionList.add(Session.builder()
+                .id(1L)
+                .topic(Topic.builder().id(1L).build())
+                .dataEnd(nowTimeDate.plusHours(2)).isOpen(true)
+                .build()
+        );
+
+        Mockito.when(this.topicServiceMock.getTopicById(createSessionData.topic_id()))
+                .thenReturn(Topic.builder().id(1L).build());
+
+        Mockito.when(this.sessionRepositoryMock.findAllByTopicId(1L)).thenReturn(topicSessionList);
+
+        try {
+            Session createdSession = this.sessionService.createSession(createSessionData);
+            Mockito.verifyNoInteractions(sessionRepositoryMock);
+        } catch (InvalidTopicException ex) {
+            assertEquals(ex.getMessage(), "Already exist a open session for this topic!");
         }
 
     }
@@ -190,8 +219,7 @@ class SessionServiceTest {
         Mockito.when(topicServiceMock.getTopicById(1L)).thenReturn(fakeTopic);
         Mockito.when(voteServiceMock.getAllByTopicId(1L)).thenReturn(new ArrayList<>());
 
-        Mockito.when(voteServiceMock.createVote(createSessionVoteDATA))
-                .thenReturn(VoteMapper.buildVote(createSessionVoteDATA));
+        Mockito.when(voteServiceMock.createVote(createSessionVoteDATA)).thenReturn(VoteMapper.buildVote(createSessionVoteDATA));
 
         Vote createdSessionVote = this.sessionService.newVote(new SessionVoteRequestDTO(1L, 1L, Answer.YES));
 
@@ -257,8 +285,7 @@ class SessionServiceTest {
         List<Session> sessionList = listSessions();
 
         Mockito.when(sessionRepositoryMock.findById(1L)).thenReturn(Optional.ofNullable(sessionList.get(0)));
-        Mockito.when(associateServiceMock.getAssociateByID(1L))
-                .thenThrow(new NullQueryResultExcepetion("Associate not found!"));
+        Mockito.when(associateServiceMock.getAssociateByID(1L)).thenThrow(new NullQueryResultExcepetion("Associate not found!"));
 
         try {
             Vote createdSessionVote = this.sessionService.newVote(new SessionVoteRequestDTO(1L, 1L, Answer.YES));

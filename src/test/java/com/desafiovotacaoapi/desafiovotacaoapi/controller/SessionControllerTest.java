@@ -4,6 +4,7 @@ import com.desafiovotacaoapi.desafiovotacaoapi.dto.sessionDto.CreateSessionDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.sessionDto.GetSessionDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.sessionDto.SessionVoteRequestDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.exception.AssociateInvalidVoteException;
+import com.desafiovotacaoapi.desafiovotacaoapi.exception.InvalidTopicException;
 import com.desafiovotacaoapi.desafiovotacaoapi.exception.NullQueryResultExcepetion;
 import com.desafiovotacaoapi.desafiovotacaoapi.exception.SessionClosedException;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Associate;
@@ -207,6 +208,28 @@ class SessionControllerTest {
                 )
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("End date must be a future date!"))
+                .andExpect(jsonPath("$.status").value("400"));
+
+    }
+
+    @Test
+    @DisplayName("Deve retornar status 400 caso ja exista uma sessao aberta referente ao topico ")
+    public void createSessionWithUnavailableTopicTest() throws Exception {
+
+        LocalDateTime nowLocalDateTime = LocalDateTime.now().withNano(0);
+        CreateSessionDTO createSessionData = new CreateSessionDTO(nowLocalDateTime.plusHours(2), 1L);
+
+        Mockito.when(this.sessionServiceMock.createSession(createSessionData))
+                .thenThrow(new InvalidTopicException("Already exist a open session for this topic!"));
+
+        mvc.perform(post("/sessions")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(createSessionDTOJson.write(
+                                createSessionData
+                        ).getJson())
+                )
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Already exist a open session for this topic!"))
                 .andExpect(jsonPath("$.status").value("400"));
 
     }

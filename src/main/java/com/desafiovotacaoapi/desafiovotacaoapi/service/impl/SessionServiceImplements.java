@@ -4,6 +4,7 @@ import com.desafiovotacaoapi.desafiovotacaoapi.dto.sessionDto.CreateSessionDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.sessionDto.GetSessionDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.sessionDto.SessionVoteRequestDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.voteDto.CreateVoteDTO;
+import com.desafiovotacaoapi.desafiovotacaoapi.exception.InvalidTopicException;
 import com.desafiovotacaoapi.desafiovotacaoapi.exception.NullQueryResultExcepetion;
 import com.desafiovotacaoapi.desafiovotacaoapi.exception.SessionClosedException;
 import com.desafiovotacaoapi.desafiovotacaoapi.mapper.SessionMapper;
@@ -43,6 +44,16 @@ public class SessionServiceImplements implements SessionService {
     public Session createSession(CreateSessionDTO sessionDTO) {
 
         Topic targetTopic = this.topicService.getTopicById(sessionDTO.topic_id());
+
+        sessionRepository.findAllByTopicId(targetTopic.getId())
+                .forEach(session -> {
+                    if (session.isOpen() && LocalDateTime.now().isAfter(session.getDataEnd())) {
+                        session.setOpen(false);
+                        this.sessionRepository.save(session);
+                    } else {
+                        throw new InvalidTopicException("Already exist a open session for this topic!");
+                    }
+                });
 
         LocalDateTime dataEnd = ValidateNewSessionEndDate.validateEndDate(sessionDTO.data_end());
 
