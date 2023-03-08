@@ -45,15 +45,16 @@ public class SessionServiceImplements implements SessionService {
 
         Topic targetTopic = this.topicService.getTopicById(sessionDTO.topic_id());
 
-        sessionRepository.findAllByTopicId(targetTopic.getId())
-                .forEach(session -> {
-                    if (session.isOpen() && LocalDateTime.now().isAfter(session.getDataEnd())) {
-                        session.setOpen(false);
-                        this.sessionRepository.save(session);
-                    } else {
-                        throw new InvalidTopicException("Already exist a open session for this topic!");
-                    }
-                });
+        List<Session> topicSessions = sessionRepository.findAllByTopicId(targetTopic.getId());
+
+        topicSessions.forEach(session -> {
+            if (session.isOpen() && LocalDateTime.now().isAfter(session.getDataEnd())) {
+                session.setOpen(false);
+                this.sessionRepository.save(session);
+            } else if (session.isOpen()) {
+                throw new InvalidTopicException("Already exist a open session for this topic!");
+            }
+        });
 
         LocalDateTime dataEnd = ValidateNewSessionEndDate.validateEndDate(sessionDTO.data_end());
 
