@@ -2,7 +2,7 @@ package com.desafiovotacaoapi.desafiovotacaoapi.service;
 
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.associateDto.CreateAssociateDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.associateDto.GetAssociateDTO;
-import com.desafiovotacaoapi.desafiovotacaoapi.exception.NullQueryResultExcepetion;
+import com.desafiovotacaoapi.desafiovotacaoapi.exception.NullQueryResultException;
 import com.desafiovotacaoapi.desafiovotacaoapi.mapper.AssociateMapper;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Associate;
 import com.desafiovotacaoapi.desafiovotacaoapi.repository.AssociateRepository;
@@ -89,7 +89,7 @@ class AssociateServiceTest {
             Associate findAssociate = this.service.getAssociateByID(4L);
 
             Mockito.verifyNoInteractions(associateRepositoryMock);
-        } catch (NullQueryResultExcepetion ex) {
+        } catch (NullQueryResultException ex) {
             assertEquals(ex.getMessage(), "Associate not found!");
         }
 

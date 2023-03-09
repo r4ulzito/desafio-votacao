@@ -1,6 +1,6 @@
 package com.desafiovotacaoapi.desafiovotacaoapi.handler;
 
-import com.desafiovotacaoapi.desafiovotacaoapi.exception.NullQueryResultExcepetion;
+import com.desafiovotacaoapi.desafiovotacaoapi.exception.NullQueryResultException;
 import com.desafiovotacaoapi.desafiovotacaoapi.handler.response.DefaultCustomExceptionResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,16 +12,16 @@ import java.time.Instant;
 @ControllerAdvice
 public class NullQueryResultExcepetionHandler {
 
-    @ExceptionHandler(NullQueryResultExcepetion.class)
-    public ResponseEntity<DefaultCustomExceptionResponse> nullQueryResultExcpetion(NullQueryResultExcepetion ex) {
+    @ExceptionHandler(NullQueryResultException.class)
+    public ResponseEntity<DefaultCustomExceptionResponse> nullQueryResultExcpetion(NullQueryResultException ex) {
 
         DefaultCustomExceptionResponse error = new DefaultCustomExceptionResponse(
                 Instant.now(),
-                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.NOT_FOUND.value(),
                 ex.getMessage()
         );
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
 
     }
 

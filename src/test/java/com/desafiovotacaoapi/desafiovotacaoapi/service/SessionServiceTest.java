@@ -6,7 +6,7 @@ import com.desafiovotacaoapi.desafiovotacaoapi.dto.sessionDto.SessionVoteRequest
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.voteDto.CreateVoteDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.exception.AssociateInvalidVoteException;
 import com.desafiovotacaoapi.desafiovotacaoapi.exception.InvalidTopicException;
-import com.desafiovotacaoapi.desafiovotacaoapi.exception.NullQueryResultExcepetion;
+import com.desafiovotacaoapi.desafiovotacaoapi.exception.NullQueryResultException;
 import com.desafiovotacaoapi.desafiovotacaoapi.exception.SessionClosedException;
 import com.desafiovotacaoapi.desafiovotacaoapi.mapper.VoteMapper;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Associate;
@@ -198,7 +198,7 @@ class SessionServiceTest {
         try {
             Session findSession = this.sessionService.getSessionById(4L);
             Mockito.verifyNoInteractions(sessionRepositoryMock);
-        } catch (NullQueryResultExcepetion ex) {
+        } catch (NullQueryResultException ex) {
             assertEquals(ex.getMessage(), "Session not found!");
         }
 
@@ -242,7 +242,7 @@ class SessionServiceTest {
         try {
             Vote createdSessionVote = this.sessionService.newVote(new SessionVoteRequestDTO(1L, 1L, Answer.YES));
             Mockito.verifyNoInteractions(sessionRepositoryMock);
-        } catch (NullQueryResultExcepetion ex) {
+        } catch (NullQueryResultException ex) {
             assertEquals(ex.getMessage(), "Session not found!");
         }
     }
@@ -285,11 +285,11 @@ class SessionServiceTest {
         List<Session> sessionList = listSessions();
 
         Mockito.when(sessionRepositoryMock.findById(1L)).thenReturn(Optional.ofNullable(sessionList.get(0)));
-        Mockito.when(associateServiceMock.getAssociateByID(1L)).thenThrow(new NullQueryResultExcepetion("Associate not found!"));
+        Mockito.when(associateServiceMock.getAssociateByID(1L)).thenThrow(new NullQueryResultException("Associate not found!"));
 
         try {
             Vote createdSessionVote = this.sessionService.newVote(new SessionVoteRequestDTO(1L, 1L, Answer.YES));
-        } catch (NullQueryResultExcepetion ex) {
+        } catch (NullQueryResultException ex) {
             assertEquals(ex.getMessage(), "Associate not found!");
         }
     }
@@ -303,11 +303,11 @@ class SessionServiceTest {
 
         Mockito.when(sessionRepositoryMock.findById(1L)).thenReturn(Optional.ofNullable(sessionList.get(0)));
         Mockito.when(associateServiceMock.getAssociateByID(1L)).thenReturn(fakeAssociate);
-        Mockito.when(topicServiceMock.getTopicById(1L)).thenThrow(new NullQueryResultExcepetion("Topic not found!"));
+        Mockito.when(topicServiceMock.getTopicById(1L)).thenThrow(new NullQueryResultException("Topic not found!"));
 
         try {
             Vote createdSessionVote = this.sessionService.newVote(new SessionVoteRequestDTO(1L, 1L, Answer.YES));
-        } catch (NullQueryResultExcepetion ex) {
+        } catch (NullQueryResultException ex) {
             assertEquals(ex.getMessage(), "Topic not found!");
         }
     }

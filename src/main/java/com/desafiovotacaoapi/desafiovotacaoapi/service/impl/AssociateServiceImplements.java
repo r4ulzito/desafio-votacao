@@ -2,7 +2,7 @@ package com.desafiovotacaoapi.desafiovotacaoapi.service.impl;
 
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.associateDto.CreateAssociateDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.associateDto.GetAssociateDTO;
-import com.desafiovotacaoapi.desafiovotacaoapi.exception.NullQueryResultExcepetion;
+import com.desafiovotacaoapi.desafiovotacaoapi.exception.NullQueryResultException;
 import com.desafiovotacaoapi.desafiovotacaoapi.mapper.AssociateMapper;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Associate;
 import com.desafiovotacaoapi.desafiovotacaoapi.repository.AssociateRepository;
@@ -30,7 +30,7 @@ public class AssociateServiceImplements implements AssociateService {
     public Associate getAssociateByID(Long associateId) {
 
         return this.associateRepository.findById(associateId)
-                .orElseThrow(() -> new NullQueryResultExcepetion("Associate not found!"));
+                .orElseThrow(() -> new NullQueryResultException("Associate not found!"));
 
     }
 

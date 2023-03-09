@@ -3,7 +3,7 @@ package com.desafiovotacaoapi.desafiovotacaoapi.service;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.topicDto.CreateTopicDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.topicDto.GetTopicDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.topicDto.ResultTopicVotesDTO;
-import com.desafiovotacaoapi.desafiovotacaoapi.exception.NullQueryResultExcepetion;
+import com.desafiovotacaoapi.desafiovotacaoapi.exception.NullQueryResultException;
 import com.desafiovotacaoapi.desafiovotacaoapi.mapper.TopicMapper;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Associate;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Topic;
@@ -97,7 +97,7 @@ class TopicServiceTest {
         try {
             Topic findTopic = this.service.getTopicById(4L);
             Mockito.verifyNoInteractions(topicRepositoryMock);
-        } catch (NullQueryResultExcepetion ex) {
+        } catch (NullQueryResultException ex) {
             assertEquals(ex.getMessage(), "Topic not found!");
         }
 
@@ -145,7 +145,7 @@ class TopicServiceTest {
         try {
             ResultTopicVotesDTO topicVotesResult = this.service.getVotesResult(1L);
             Mockito.verifyNoInteractions(voteServiceMock);
-        } catch (NullQueryResultExcepetion ex) {
+        } catch (NullQueryResultException ex) {
             assertEquals(ex.getMessage(), "No votes registered!");
         }
 

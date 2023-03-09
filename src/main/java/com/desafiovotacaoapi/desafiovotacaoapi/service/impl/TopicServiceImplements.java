@@ -3,7 +3,7 @@ package com.desafiovotacaoapi.desafiovotacaoapi.service.impl;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.topicDto.CreateTopicDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.topicDto.GetTopicDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.topicDto.ResultTopicVotesDTO;
-import com.desafiovotacaoapi.desafiovotacaoapi.exception.NullQueryResultExcepetion;
+import com.desafiovotacaoapi.desafiovotacaoapi.exception.NullQueryResultException;
 import com.desafiovotacaoapi.desafiovotacaoapi.mapper.TopicMapper;
 import com.desafiovotacaoapi.desafiovotacaoapi.service.TopicService;
 import com.desafiovotacaoapi.desafiovotacaoapi.service.VoteService;
@@ -36,7 +36,7 @@ public class TopicServiceImplements implements TopicService {
     public Topic getTopicById(Long topicId) {
 
         return this.topicRepository.findById(topicId)
-                .orElseThrow(() -> new NullQueryResultExcepetion("Topic not found!"));
+                .orElseThrow(() -> new NullQueryResultException("Topic not found!"));
     }
 
     public List<GetTopicDTO> getAllTopics() {
@@ -48,7 +48,7 @@ public class TopicServiceImplements implements TopicService {
         List<Vote> targetTopicVotes = this.voteService.getAllByTopicId(topicId);
 
         if (targetTopicVotes.size() == 0) {
-            throw new NullQueryResultExcepetion("No votes registered!");
+            throw new NullQueryResultException("No votes registered!");
         }
 
         return VotesCounter.countVotes(targetTopicVotes);

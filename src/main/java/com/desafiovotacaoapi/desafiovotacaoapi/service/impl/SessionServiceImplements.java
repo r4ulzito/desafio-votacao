@@ -5,7 +5,7 @@ import com.desafiovotacaoapi.desafiovotacaoapi.dto.sessionDto.GetSessionDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.sessionDto.SessionVoteRequestDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.voteDto.CreateVoteDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.exception.InvalidTopicException;
-import com.desafiovotacaoapi.desafiovotacaoapi.exception.NullQueryResultExcepetion;
+import com.desafiovotacaoapi.desafiovotacaoapi.exception.NullQueryResultException;
 import com.desafiovotacaoapi.desafiovotacaoapi.exception.SessionClosedException;
 import com.desafiovotacaoapi.desafiovotacaoapi.mapper.SessionMapper;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Associate;
@@ -70,7 +70,7 @@ public class SessionServiceImplements implements SessionService {
     public Session getSessionById(Long sessionId) {
 
         return this.sessionRepository.findById(sessionId)
-                .orElseThrow(() -> new NullQueryResultExcepetion("Session not found!"));
+                .orElseThrow(() -> new NullQueryResultException("Session not found!"));
 
     }
 

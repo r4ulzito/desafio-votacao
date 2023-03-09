@@ -5,7 +5,7 @@ import com.desafiovotacaoapi.desafiovotacaoapi.dto.sessionDto.GetSessionDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.sessionDto.SessionVoteRequestDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.exception.AssociateInvalidVoteException;
 import com.desafiovotacaoapi.desafiovotacaoapi.exception.InvalidTopicException;
-import com.desafiovotacaoapi.desafiovotacaoapi.exception.NullQueryResultExcepetion;
+import com.desafiovotacaoapi.desafiovotacaoapi.exception.NullQueryResultException;
 import com.desafiovotacaoapi.desafiovotacaoapi.exception.SessionClosedException;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Associate;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.Session;
@@ -172,14 +172,14 @@ class SessionControllerTest {
     }
 
     @Test
-    @DisplayName("Deve retornar status 400 caso o topico referente a sessao não exista")
+    @DisplayName("Deve retornar status 404 caso o topico referente a sessao não exista")
     public void createSessionWithInexistentSessionTopicTest() throws Exception {
 
         LocalDateTime nowLocalDateTime = LocalDateTime.now().withNano(0);
         CreateSessionDTO createSessionData = new CreateSessionDTO(nowLocalDateTime.plusHours(2), 1L);
 
         Mockito.when(sessionServiceMock.createSession(createSessionData))
-                .thenThrow(new NullQueryResultExcepetion("Topic not found!"));
+                .thenThrow(new NullQueryResultException("Topic not found!"));
 
         mvc.perform(post("/sessions")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -187,9 +187,9 @@ class SessionControllerTest {
                                 createSessionData
                         ).getJson())
                 )
-                .andExpect(status().isBadRequest())
+                .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value("Topic not found!"))
-                .andExpect(jsonPath("$.status").value("400"));
+                .andExpect(jsonPath("$.status").value("404"));
 
     }
 
@@ -326,13 +326,13 @@ class SessionControllerTest {
     }
 
     @Test
-    @DisplayName("Deve retornar status 400 caso o topico referente a sessao não exista")
+    @DisplayName("Deve retornar status 404 caso o topico referente a sessao não exista")
     public void voteWithInexistentSessionIDTest() throws Exception {
 
         SessionVoteRequestDTO createVoteRequestData = new SessionVoteRequestDTO(1L, 1L, Answer.YES);
 
         Mockito.when(sessionServiceMock.newVote(createVoteRequestData))
-                .thenThrow(new NullQueryResultExcepetion("Session not found!"));
+                .thenThrow(new NullQueryResultException("Session not found!"));
 
         mvc.perform(post("/sessions/vote")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -340,9 +340,9 @@ class SessionControllerTest {
                                 createVoteRequestData
                         ).getJson())
                 )
-                .andExpect(status().isBadRequest())
+                .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value("Session not found!"))
-                .andExpect(jsonPath("$.status").value("400"));
+                .andExpect(jsonPath("$.status").value("404"));
 
     }
 
@@ -368,13 +368,13 @@ class SessionControllerTest {
     }
 
     @Test
-    @DisplayName("Deve retornar status 400 caso o associado referente ao ID enviado não exista")
+    @DisplayName("Deve retornar status 404 caso o associado referente ao ID enviado não exista")
     public void voteWithInexistentAssociateIdTest() throws Exception {
 
         SessionVoteRequestDTO createVoteRequestData = new SessionVoteRequestDTO(1L, 1L, Answer.YES);
 
         Mockito.when(sessionServiceMock.newVote(createVoteRequestData))
-                .thenThrow(new NullQueryResultExcepetion("Associate not found!"));
+                .thenThrow(new NullQueryResultException("Associate not found!"));
 
         mvc.perform(post("/sessions/vote")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -382,20 +382,20 @@ class SessionControllerTest {
                                 createVoteRequestData
                         ).getJson())
                 )
-                .andExpect(status().isBadRequest())
+                .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value("Associate not found!"))
-                .andExpect(jsonPath("$.status").value("400"));
+                .andExpect(jsonPath("$.status").value("404"));
 
     }
 
     @Test
-    @DisplayName("Deve retornar status 400 caso o topico referente a sessão não exista")
+    @DisplayName("Deve retornar status 404 caso o topico referente a sessão não exista")
     public void voteWithInexistentSessionTopicTest() throws Exception {
 
         SessionVoteRequestDTO createVoteRequestData = new SessionVoteRequestDTO(1L, 1L, Answer.YES);
 
         Mockito.when(sessionServiceMock.newVote(createVoteRequestData))
-                .thenThrow(new NullQueryResultExcepetion("Topic not found!"));
+                .thenThrow(new NullQueryResultException("Topic not found!"));
 
         mvc.perform(post("/sessions/vote")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -403,9 +403,9 @@ class SessionControllerTest {
                                 createVoteRequestData
                         ).getJson())
                 )
-                .andExpect(status().isBadRequest())
+                .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value("Topic not found!"))
-                .andExpect(jsonPath("$.status").value("400"));
+                .andExpect(jsonPath("$.status").value("404"));
 
     }
 

@@ -3,7 +3,7 @@ package com.desafiovotacaoapi.desafiovotacaoapi.controller;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.topicDto.CreateTopicDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.topicDto.GetTopicDTO;
 import com.desafiovotacaoapi.desafiovotacaoapi.dto.topicDto.ResultTopicVotesDTO;
-import com.desafiovotacaoapi.desafiovotacaoapi.exception.NullQueryResultExcepetion;
+import com.desafiovotacaoapi.desafiovotacaoapi.exception.NullQueryResultException;
 import com.desafiovotacaoapi.desafiovotacaoapi.mapper.TopicMapper;
 import com.desafiovotacaoapi.desafiovotacaoapi.model.enums.TopicVotesResult;
 import com.desafiovotacaoapi.desafiovotacaoapi.service.TopicService;
@@ -154,17 +154,17 @@ class TopicControllerTest {
     }
 
     @Test
-    @DisplayName("Deve retornar status 400 caso não exista topico referente ao ID passado")
+    @DisplayName("Deve retornar status 404 caso não exista topico referente ao ID passado")
     public void getVotesResultWithInexistentTopicIdTest() throws Exception {
 
-        Mockito.when(topicServiceMock.getVotesResult(2L)).thenThrow(new NullQueryResultExcepetion("No votes registered!"));
+        Mockito.when(topicServiceMock.getVotesResult(2L)).thenThrow(new NullQueryResultException("No votes registered!"));
 
         mvc.perform(get("/topics/result/2")
                         .contentType(MediaType.APPLICATION_JSON)
                 )
-                .andExpect(status().isBadRequest())
+                .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value("No votes registered!"))
-                .andExpect(jsonPath("$.status").value("400"));
+                .andExpect(jsonPath("$.status").value("404"));
 
     }
 
