@@ -34,7 +34,12 @@ public class SessionServiceImplements implements SessionService {
     private final VoteService voteService;
 
     @Autowired
-    public SessionServiceImplements(SessionRepository sessionRepository, AssociateService associateService, TopicService topicService, VoteService voteService) {
+    public SessionServiceImplements(
+            SessionRepository sessionRepository,
+            AssociateService associateService,
+            TopicService topicService,
+            VoteService voteService
+    ) {
         this.sessionRepository = sessionRepository;
         this.associateService = associateService;
         this.topicService = topicService;
@@ -64,23 +69,29 @@ public class SessionServiceImplements implements SessionService {
 
     public List<GetSessionDTO> getAllSessions() {
 
-        return this.sessionRepository.findAll().stream().map(GetSessionDTO::new).toList();
+        List<Session> allSessions = this.sessionRepository.findAll();
+
+        allSessions.forEach(session -> {
+            if (this.sessionIsOpen(session)) {
+                this.closedSession(session);
+            }
+        });
+
+        return allSessions.stream().map(GetSessionDTO::new).toList();
     }
 
     public Session getSessionById(Long sessionId) {
 
         return this.sessionRepository.findById(sessionId)
                 .orElseThrow(() -> new NullQueryResultException("Session not found!"));
-
     }
 
     public Vote newVote(SessionVoteRequestDTO sessionVoteRequestDTO) {
 
         Session targetSession = this.getSessionById(sessionVoteRequestDTO.session_id());
 
-        if (!targetSession.isOpen() || LocalDateTime.now().isAfter(targetSession.getDataEnd())) {
-            targetSession.setOpen(false);
-            this.sessionRepository.save(targetSession);
+        if (this.sessionIsOpen(targetSession)) {
+            this.closedSession(targetSession);
             throw new SessionClosedException("Session is closed!");
         }
 
@@ -92,6 +103,15 @@ public class SessionServiceImplements implements SessionService {
         ValidateVoteAssociate.validateAssociateCanVote(targetTopicVotes, targetAssociate);
 
         return this.voteService.createVote(new CreateVoteDTO(sessionVoteRequestDTO.answer(), targetAssociate, targetTopic));
+    }
+
+    private void closedSession(Session session) {
+        session.setOpen(false);
+        this.sessionRepository.save(session);
+    }
+
+    private boolean sessionIsOpen(Session session) {
+        return !session.isOpen() || LocalDateTime.now().isAfter(session.getDataEnd());
     }
 
 }
