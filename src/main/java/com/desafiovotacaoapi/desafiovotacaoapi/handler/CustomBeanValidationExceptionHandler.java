@@ -16,7 +16,9 @@ import java.util.stream.Collectors;
 public class CustomBeanValidationExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<CustomBeanValidationExceptionResponse> BadResquestBeanValidationException(MethodArgumentNotValidException ex) {
+    public ResponseEntity<CustomBeanValidationExceptionResponse> BadResquestBeanValidationException(
+            MethodArgumentNotValidException ex
+    ) {
 
         List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
         String fields = fieldErrors.stream().map(FieldError::getField).collect(Collectors.joining(", "));
