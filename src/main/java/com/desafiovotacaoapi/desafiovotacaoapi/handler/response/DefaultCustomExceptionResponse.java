@@ -1,6 +1,5 @@
 package com.desafiovotacaoapi.desafiovotacaoapi.handler.response;
 
-import lombok.Builder;
 import lombok.Data;
 
 import java.time.Instant;

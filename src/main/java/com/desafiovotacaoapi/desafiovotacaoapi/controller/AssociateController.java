@@ -29,8 +29,10 @@ public class AssociateController {
         this.associateService = service;
     }
 
-    @ApiResponses(value = {@ApiResponse(responseCode = "201"),
-            @ApiResponse(responseCode = "400", content = {@Content()})})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201"),
+            @ApiResponse(responseCode = "400", content = {@Content()}),
+    })
     @Operation(summary = "Cria um associado")
     @PostMapping
     public ResponseEntity<Associate> createAssociate(@Valid @RequestBody CreateAssociateDTO data) {
@@ -38,7 +40,9 @@ public class AssociateController {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.associateService.createAssociate(data));
     }
 
-    @ApiResponses(value = {@ApiResponse(responseCode = "200")})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200"),
+    })
     @Operation(summary = "Busca todos os associados")
     @GetMapping
     public ResponseEntity<List<GetAssociateDTO>> getAllAsssociates() {

@@ -31,8 +31,10 @@ public class TopicController {
     }
 
     @Operation(summary = "Cria um tópico")
-    @ApiResponses(value = {@ApiResponse(responseCode = "201"),
-            @ApiResponse(responseCode = "400", content = {@Content()})})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201"),
+            @ApiResponse(responseCode = "400", content = {@Content()}),
+    })
     @PostMapping
     public ResponseEntity<Topic> createTopic(@Valid @RequestBody CreateTopicDTO data) {
 

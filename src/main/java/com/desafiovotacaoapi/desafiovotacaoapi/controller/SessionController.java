@@ -43,8 +43,8 @@ public class SessionController {
     @Operation(summary = "Cria uma sessão")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201"),
-            @ApiResponse(responseCode = "404", content = {@Content()}),
-            @ApiResponse(responseCode = "400", content = {@Content()})
+            @ApiResponse(responseCode = "400", content = {@Content()}),
+            @ApiResponse(responseCode = "404", content = {@Content()})
     })
     @PostMapping
     public ResponseEntity<Session> createSession(@Valid @RequestBody CreateSessionDTO data) {
@@ -54,8 +54,8 @@ public class SessionController {
     @Operation(summary = "Cria um voto")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201"),
-            @ApiResponse(responseCode = "404", content = {@Content()}),
-            @ApiResponse(responseCode = "400", content = {@Content()})
+            @ApiResponse(responseCode = "400", content = {@Content()}),
+            @ApiResponse(responseCode = "404", content = {@Content()})
     })
     @PostMapping("/vote")
     public ResponseEntity<Vote> vote(@Valid @RequestBody SessionVoteRequestDTO data) {

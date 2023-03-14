@@ -17,6 +17,7 @@ public class SpringDocConfigurations {
                 .info(new Info()
                         .title("API Desafio Votação")
                         .description("API de criação de pautas para votação.")
+                        .version("1.0.0")
                 );
 
     }
