@@ -11,11 +11,9 @@ public class ValidateVoteAssociate {
 
     public static void validateAssociateCanVote(List<Vote> topicVotes, Associate targetAssociate) {
 
-        topicVotes.forEach(vote -> {
-            if (Objects.equals(vote.getAssociate().getId(), targetAssociate.getId())) {
-                throw new AssociateInvalidVoteException("Associate already voted for this topic!");
-            }
-        });
+        if (topicVotes.stream().anyMatch(vote -> Objects.equals(vote.getAssociate().getId(), targetAssociate.getId()))) {
+            throw new AssociateInvalidVoteException("Associate already voted for this topic!");
+        }
 
     }
 
