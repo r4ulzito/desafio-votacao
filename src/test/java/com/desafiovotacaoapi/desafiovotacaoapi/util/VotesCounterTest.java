@@ -14,7 +14,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class VotesCounterHelperTest {
+class VotesCounterTest {
 
     @Test
     @DisplayName("Deve retonar a contagem dos votos e o result YES")
