@@ -53,10 +53,7 @@ public class SessionServiceImplements implements SessionService {
         List<Session> topicSessions = sessionRepository.findAllByTopicId(targetTopic.getId());
 
         topicSessions.forEach(session -> {
-            if (session.isOpen() && LocalDateTime.now().isAfter(session.getDataEnd())) {
-                session.setOpen(false);
-                this.sessionRepository.save(session);
-            } else if (session.isOpen()) {
+            if (!this.sessionIsClosed(session)) {
                 throw new InvalidTopicException("Already exist a open session for this topic!");
             }
         });
@@ -71,11 +68,7 @@ public class SessionServiceImplements implements SessionService {
 
         List<Session> allSessions = this.sessionRepository.findAll();
 
-        allSessions.forEach(session -> {
-            if (this.sessionIsOpen(session)) {
-                this.closedSession(session);
-            }
-        });
+        allSessions.forEach(this::sessionIsClosed);
 
         return allSessions.stream().map(GetSessionDTO::new).toList();
     }
@@ -90,8 +83,7 @@ public class SessionServiceImplements implements SessionService {
 
         Session targetSession = this.getSessionById(sessionVoteRequestDTO.session_id());
 
-        if (this.sessionIsOpen(targetSession)) {
-            this.closedSession(targetSession);
+        if (this.sessionIsClosed(targetSession)) {
             throw new SessionClosedException("Session is closed!");
         }
 
@@ -105,13 +97,17 @@ public class SessionServiceImplements implements SessionService {
         return this.voteService.createVote(new CreateVoteDTO(sessionVoteRequestDTO.answer(), targetAssociate, targetTopic));
     }
 
-    private void closedSession(Session session) {
-        session.setOpen(false);
-        this.sessionRepository.save(session);
-    }
+    private boolean sessionIsClosed(Session session) {
 
-    private boolean sessionIsOpen(Session session) {
-        return !session.isOpen() || LocalDateTime.now().isAfter(session.getDataEnd());
+        if (!session.isOpen()) {
+            return true;
+        } else if (LocalDateTime.now().isAfter(session.getDataEnd())) {
+            session.setOpen(false);
+            this.sessionRepository.save(session);
+            return true;
+        }
+
+        return false;
     }
 
 }

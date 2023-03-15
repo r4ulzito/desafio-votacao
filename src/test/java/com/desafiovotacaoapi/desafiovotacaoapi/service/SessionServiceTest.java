@@ -159,6 +159,26 @@ class SessionServiceTest {
     }
 
     @Test
+    @DisplayName("Deve fechar as sessões em que a data de encerramento ja tenha sido alcançada")
+    public void getAllSessionsAndClosingSessionsTest() {
+        LocalDateTime nowTimeDate = LocalDateTime.now();
+
+        List<Session> sessionsList = new ArrayList<>();
+
+        sessionsList.add(new Session(1L, new Topic(), nowTimeDate.minusHours(2), nowTimeDate.minusHours(1), true));
+        sessionsList.add(new Session(2L, new Topic(), nowTimeDate, nowTimeDate.plusHours(1), true));
+
+        Mockito.when(this.sessionRepositoryMock.findAll()).thenReturn(sessionsList);
+
+        List<GetSessionDTO> findSessionsList = this.sessionService.getAllSessions();
+
+        assertEquals(findSessionsList.size(), 2);
+        assertEquals(findSessionsList.get(0).id(), 1L);
+        assertFalse(findSessionsList.get(0).isOpen());
+        Mockito.verify(sessionRepositoryMock, Mockito.times(1)).findAll();
+    }
+
+    @Test
     @DisplayName("Deve retornar uma lista vazia caso nao exista nenhuma sessão registrada")
     public void getAllSessionsWithNoSessionsRegisteredTest() {
 
