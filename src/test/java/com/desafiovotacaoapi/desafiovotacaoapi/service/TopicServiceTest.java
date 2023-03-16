@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,13 +45,11 @@ class TopicServiceTest {
 
     private List<Topic> topicsList() {
 
-        List<Topic> list = new ArrayList<>();
-
-        list.add(new Topic(1L, "Title1", "Description1"));
-        list.add(new Topic(2L, "Title2", "Description2"));
-        list.add(new Topic(3L, "Title3", "Description3"));
-
-        return list;
+        return Arrays.asList(
+                new Topic(1L, "Title1", "Description1"),
+                new Topic(2L, "Title2", "Description2"),
+                new Topic(3L, "Title3", "Description3")
+        );
     }
 
     @Test
@@ -155,10 +154,10 @@ class TopicServiceTest {
     @DisplayName("Deve retornar o resultado da votação como YES")
     public void getVotesResultWithYesResult() {
 
-        List<Vote> listVotes = new ArrayList<>();
-
-        listVotes.add(new Vote(1L, new Associate(), new Topic(1L, "Title1", "Description1"), Answer.YES));
-        listVotes.add(new Vote(2L, new Associate(), new Topic(1L, "Title2", "Description2"), Answer.YES));
+        List<Vote> listVotes = Arrays.asList(
+                new Vote(1L, new Associate(), new Topic(1L, "Title1", "Description1"), Answer.YES),
+                new Vote(2L, new Associate(), new Topic(1L, "Title2", "Description2"), Answer.YES)
+        );
 
         Mockito.when(voteServiceMock.getAllByTopicId(1L)).thenReturn(listVotes.stream()
                 .filter(vote -> vote.getTopic().getId() == 1L).toList());
@@ -176,10 +175,10 @@ class TopicServiceTest {
     @DisplayName("Deve retornar o resultado da votação como NO")
     public void getVotesResultWithNoResult() {
 
-        List<Vote> listVotes = new ArrayList<>();
-
-        listVotes.add(new Vote(1L, new Associate(), new Topic(1L, "Title1", "Description1"), Answer.NO));
-        listVotes.add(new Vote(2L, new Associate(), new Topic(1L, "Title2", "Description2"), Answer.NO));
+        List<Vote> listVotes = Arrays.asList(
+                new Vote(1L, new Associate(), new Topic(1L, "Title1", "Description1"), Answer.NO),
+                new Vote(2L, new Associate(), new Topic(1L, "Title2", "Description2"), Answer.NO)
+        );
 
         Mockito.when(voteServiceMock.getAllByTopicId(1L)).thenReturn(listVotes.stream()
                 .filter(vote -> vote.getTopic().getId() == 1L).toList());
@@ -197,10 +196,10 @@ class TopicServiceTest {
     @DisplayName("Deve retornar o resultado da votação como DRAW")
     public void getVotesResultWithDRAWResult() {
 
-        List<Vote> listVotes = new ArrayList<>();
-
-        listVotes.add(new Vote(1L, new Associate(), new Topic(1L, "Title1", "Description1"), Answer.NO));
-        listVotes.add(new Vote(2L, new Associate(), new Topic(1L, "Title2", "Description2"), Answer.YES));
+        List<Vote> listVotes = Arrays.asList(
+                new Vote(1L, new Associate(), new Topic(1L, "Title1", "Description1"), Answer.NO),
+                new Vote(2L, new Associate(), new Topic(1L, "Title2", "Description2"), Answer.YES)
+        );
 
         Mockito.when(voteServiceMock.getAllByTopicId(1L)).thenReturn(listVotes.stream()
                 .filter(vote -> vote.getTopic().getId() == 1L).toList());

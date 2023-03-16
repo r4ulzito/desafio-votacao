@@ -23,6 +23,7 @@ import org.mockito.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,14 +59,13 @@ class SessionServiceTest {
     }
 
     private List<Session> listSessions() {
-        List<Session> list = new ArrayList<>();
         LocalDateTime nowTimeDate = LocalDateTime.now();
 
-        list.add(new Session(1L, new Topic(1L, "Title1", "Description1"), nowTimeDate, nowTimeDate.plusHours(1), true));
-        list.add(new Session(2L, new Topic(2L, "Title2", "Description2"), nowTimeDate, nowTimeDate.plusHours(1), true));
-        list.add(new Session(3L, new Topic(3L, "Title3", "Description3"), nowTimeDate, nowTimeDate.plusHours(1), false));
-
-        return list;
+        return Arrays.asList(
+                new Session(1L, new Topic(1L, "Title1", "Description1"), nowTimeDate, nowTimeDate.plusHours(1), true),
+                new Session(2L, new Topic(2L, "Title2", "Description2"), nowTimeDate, nowTimeDate.plusHours(1), true),
+                new Session(3L, new Topic(3L, "Title3", "Description3"), nowTimeDate, nowTimeDate.plusHours(1), false)
+        );
     }
 
     @Test
@@ -163,10 +163,10 @@ class SessionServiceTest {
     public void getAllSessionsAndClosingSessionsTest() {
         LocalDateTime nowTimeDate = LocalDateTime.now();
 
-        List<Session> sessionsList = new ArrayList<>();
-
-        sessionsList.add(new Session(1L, new Topic(), nowTimeDate.minusHours(2), nowTimeDate.minusHours(1), true));
-        sessionsList.add(new Session(2L, new Topic(), nowTimeDate, nowTimeDate.plusHours(1), true));
+        List<Session> sessionsList = Arrays.asList(
+                new Session(1L, new Topic(), nowTimeDate.minusHours(2), nowTimeDate.minusHours(1), true),
+                new Session(2L, new Topic(), nowTimeDate, nowTimeDate.plusHours(1), true)
+        );
 
         Mockito.when(this.sessionRepositoryMock.findAll()).thenReturn(sessionsList);
 

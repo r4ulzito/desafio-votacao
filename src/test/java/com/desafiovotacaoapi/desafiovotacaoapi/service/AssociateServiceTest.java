@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,13 +36,12 @@ class AssociateServiceTest {
     }
 
     private List<Associate> associatesList() {
-        List<Associate> list = new ArrayList<>();
 
-        list.add(new Associate(1L, "Associate 1"));
-        list.add(new Associate(2L, "Associate 2"));
-        list.add(new Associate(3L, "Associate 3"));
-
-        return list;
+        return Arrays.asList(
+                new Associate(1L, "Associate 1"),
+                new Associate(2L, "Associate 2"),
+                new Associate(3L, "Associate 3")
+        );
 
     }
 

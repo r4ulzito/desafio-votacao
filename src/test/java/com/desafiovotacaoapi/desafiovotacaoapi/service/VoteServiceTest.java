@@ -13,7 +13,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -35,13 +35,13 @@ class VoteServiceTest {
     }
 
     private List<Vote> listVotes() {
-        List<Vote> list = new ArrayList<>();
 
-        list.add(new Vote(1L, new Associate(), new Topic(1L, "Title1", "Description1"), Answer.YES));
-        list.add(new Vote(2L, new Associate(), new Topic(1L, "Title2", "Description2"), Answer.YES));
-        list.add(new Vote(3L, new Associate(), new Topic(2L, "Title3", "Description3"), Answer.YES));
+        return Arrays.asList(
+                new Vote(1L, new Associate(), new Topic(1L, "Title1", "Description1"), Answer.YES),
+                new Vote(2L, new Associate(), new Topic(1L, "Title2", "Description2"), Answer.YES),
+                new Vote(3L, new Associate(), new Topic(2L, "Title3", "Description3"), Answer.YES)
+        );
 
-        return list;
     }
 
     @Test
