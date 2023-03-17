@@ -40,6 +40,8 @@ class TopicControllerTest {
     @MockBean
     private TopicService topicServiceMock;
 
+    private static final String baseURL = "/topics";
+
     @Test
     @DisplayName("Deve retornar status 201 ao criar um topico")
     public void createTopicTest() throws Exception {
@@ -49,7 +51,7 @@ class TopicControllerTest {
         Mockito.when(topicServiceMock.createTopic(createTopicData))
                 .thenReturn(TopicMapper.buildTopic(createTopicData));
 
-        mvc.perform(post("/topics")
+        mvc.perform(post(baseURL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(createTopicDTOJson.write(
                                 createTopicData
@@ -66,7 +68,7 @@ class TopicControllerTest {
 
         CreateTopicDTO createTopicData = new CreateTopicDTO(null, "Description1");
 
-        mvc.perform(post("/topics")
+        mvc.perform(post(baseURL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(createTopicDTOJson.write(
                                 createTopicData
@@ -85,7 +87,7 @@ class TopicControllerTest {
 
         CreateTopicDTO createTopicData = new CreateTopicDTO("Title1", null);
 
-        mvc.perform(post("/topics")
+        mvc.perform(post(baseURL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(createTopicDTOJson.write(
                                 createTopicData
@@ -108,7 +110,7 @@ class TopicControllerTest {
 
         Mockito.when(topicServiceMock.getAllTopics()).thenReturn(topicsList);
 
-        mvc.perform(get("/topics")
+        mvc.perform(get(baseURL)
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -125,7 +127,7 @@ class TopicControllerTest {
 
         Mockito.when(topicServiceMock.getAllTopics()).thenReturn(new ArrayList<>());
 
-        mvc.perform(get("/topics")
+        mvc.perform(get(baseURL)
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -142,7 +144,7 @@ class TopicControllerTest {
 
         Mockito.when(topicServiceMock.getVotesResult(1L)).thenReturn(resultVoteData);
 
-        mvc.perform(get("/topics/result/1")
+        mvc.perform(get(baseURL + "/result/1")
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isOk())
@@ -159,7 +161,7 @@ class TopicControllerTest {
 
         Mockito.when(topicServiceMock.getVotesResult(2L)).thenThrow(new NullQueryResultException("No votes registered!"));
 
-        mvc.perform(get("/topics/result/2")
+        mvc.perform(get(baseURL + "/result/2")
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isNotFound())
@@ -172,7 +174,7 @@ class TopicControllerTest {
     @DisplayName("Deve retornar status 404 caso o ID passado seja nulo")
     public void getVotesResultWithNullTopicIdTest() throws Exception {
 
-        mvc.perform(get("/topics/results/")
+        mvc.perform(get(baseURL + "/results/")
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isNotFound());

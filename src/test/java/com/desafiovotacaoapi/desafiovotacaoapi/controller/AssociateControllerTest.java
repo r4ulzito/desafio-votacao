@@ -37,6 +37,8 @@ class AssociateControllerTest {
     @MockBean
     private AssociateService associateServiceMock;
 
+    private static final String baseURL = "/associates";
+
     @Test
     @DisplayName("Deve retornar status 201 quando associado for criado")
     public void createAssociateTest() throws Exception {
@@ -46,7 +48,7 @@ class AssociateControllerTest {
         Mockito.when(associateServiceMock.createAssociate(Mockito.any(CreateAssociateDTO.class)))
                 .thenReturn(expectAssociate);
 
-        mvc.perform(post("/associates")
+        mvc.perform(post(baseURL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(createAssociateDTOJson.write(
                                 new CreateAssociateDTO("Associate1")
@@ -62,7 +64,7 @@ class AssociateControllerTest {
     @DisplayName("Deve retornar status 400 quando o nome do associado enviado na requisição for nulo")
     public void createAssociateWithNullNameTest() throws Exception {
 
-        mvc.perform(post("/associates")
+        mvc.perform(post(baseURL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(createAssociateDTOJson.write(
                                 new CreateAssociateDTO(null)
@@ -83,7 +85,7 @@ class AssociateControllerTest {
 
         Mockito.when(associateServiceMock.getAllAssociates()).thenReturn(associateList);
 
-        mvc.perform(get("/associates")
+        mvc.perform(get(baseURL)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -99,7 +101,7 @@ class AssociateControllerTest {
 
         Mockito.when(associateServiceMock.getAllAssociates()).thenReturn(new ArrayList<>());
 
-        mvc.perform(get("/associates")
+        mvc.perform(get(baseURL)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

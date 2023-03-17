@@ -50,6 +50,8 @@ class SessionControllerTest {
     @Autowired
     private JacksonTester<SessionVoteRequestDTO> sessionVoteRequestDTOJson;
 
+    private static final String baseURL = "/sessions";
+
     @Test
     @DisplayName("Deve retornar status 200 e uma lista com todas as sessões")
     public void getAllSessionsTest() throws Exception {
@@ -62,7 +64,7 @@ class SessionControllerTest {
 
         Mockito.when(sessionServiceMock.getAllSessions()).thenReturn(sessionsList);
 
-        mvc.perform(get("/sessions")
+        mvc.perform(get(baseURL)
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isOk())
@@ -80,7 +82,7 @@ class SessionControllerTest {
 
         Mockito.when(sessionServiceMock.getAllSessions()).thenReturn(new ArrayList<>());
 
-        mvc.perform(get("/sessions")
+        mvc.perform(get(baseURL)
                         .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isOk())
@@ -105,7 +107,7 @@ class SessionControllerTest {
         Mockito.when(sessionServiceMock.createSession(createSessionData))
                 .thenReturn(createdSession);
 
-        mvc.perform(post("/sessions")
+        mvc.perform(post(baseURL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(createSessionDTOJson.write(
                                 createSessionData
@@ -138,7 +140,7 @@ class SessionControllerTest {
         Mockito.when(sessionServiceMock.createSession(createSessionData))
                 .thenReturn(createdSession);
 
-        mvc.perform(post("/sessions")
+        mvc.perform(post(baseURL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(createSessionDTOJson.write(
                                 createSessionData
@@ -160,7 +162,7 @@ class SessionControllerTest {
         LocalDateTime nowLocalDateTime = LocalDateTime.now().withNano(0);
         CreateSessionDTO createSessionData = new CreateSessionDTO(nowLocalDateTime.plusHours(2), null);
 
-        var a = mvc.perform(post("/sessions")
+        var a = mvc.perform(post(baseURL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(createSessionDTOJson.write(
                                 createSessionData
@@ -181,7 +183,7 @@ class SessionControllerTest {
         Mockito.when(sessionServiceMock.createSession(createSessionData))
                 .thenThrow(new NullQueryResultException("Topic not found!"));
 
-        mvc.perform(post("/sessions")
+        mvc.perform(post(baseURL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(createSessionDTOJson.write(
                                 createSessionData
@@ -200,7 +202,7 @@ class SessionControllerTest {
         LocalDateTime nowLocalDateTime = LocalDateTime.now().withNano(0);
         CreateSessionDTO createSessionData = new CreateSessionDTO(nowLocalDateTime.minusHours(2), 1L);
 
-        mvc.perform(post("/sessions")
+        mvc.perform(post(baseURL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(createSessionDTOJson.write(
                                 createSessionData
@@ -222,7 +224,7 @@ class SessionControllerTest {
         Mockito.when(this.sessionServiceMock.createSession(createSessionData))
                 .thenThrow(new InvalidTopicException("Already exist a open session for this topic!"));
 
-        mvc.perform(post("/sessions")
+        mvc.perform(post(baseURL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(createSessionDTOJson.write(
                                 createSessionData
@@ -260,7 +262,7 @@ class SessionControllerTest {
         Mockito.when(sessionServiceMock.newVote(createVoteRequestData))
                 .thenReturn(createdVote);
 
-        mvc.perform(post("/sessions/vote")
+        mvc.perform(post(baseURL + "/vote")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(sessionVoteRequestDTOJson.write(
                                 createVoteRequestData
@@ -280,7 +282,7 @@ class SessionControllerTest {
 
         SessionVoteRequestDTO createVoteRequestData = new SessionVoteRequestDTO(null, 1L, Answer.YES);
 
-        mvc.perform(post("/sessions/vote")
+        mvc.perform(post(baseURL + "/vote")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(sessionVoteRequestDTOJson.write(
                                 createVoteRequestData
@@ -297,7 +299,7 @@ class SessionControllerTest {
 
         SessionVoteRequestDTO createVoteRequestData = new SessionVoteRequestDTO(1L, null, Answer.YES);
 
-        mvc.perform(post("/sessions/vote")
+        mvc.perform(post(baseURL + "/vote")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(sessionVoteRequestDTOJson.write(
                                 createVoteRequestData
@@ -314,7 +316,7 @@ class SessionControllerTest {
 
         SessionVoteRequestDTO createVoteRequestData = new SessionVoteRequestDTO(1L, 1L, null);
 
-        mvc.perform(post("/sessions/vote")
+        mvc.perform(post(baseURL + "/vote")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(sessionVoteRequestDTOJson.write(
                                 createVoteRequestData
@@ -334,7 +336,7 @@ class SessionControllerTest {
         Mockito.when(sessionServiceMock.newVote(createVoteRequestData))
                 .thenThrow(new NullQueryResultException("Session not found!"));
 
-        mvc.perform(post("/sessions/vote")
+        mvc.perform(post(baseURL + "/vote")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(sessionVoteRequestDTOJson.write(
                                 createVoteRequestData
@@ -355,7 +357,7 @@ class SessionControllerTest {
         Mockito.when(sessionServiceMock.newVote(createVoteRequestData))
                 .thenThrow(new SessionClosedException("Session is closed!"));
 
-        mvc.perform(post("/sessions/vote")
+        mvc.perform(post(baseURL + "/vote")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(sessionVoteRequestDTOJson.write(
                                 createVoteRequestData
@@ -376,7 +378,7 @@ class SessionControllerTest {
         Mockito.when(sessionServiceMock.newVote(createVoteRequestData))
                 .thenThrow(new NullQueryResultException("Associate not found!"));
 
-        mvc.perform(post("/sessions/vote")
+        mvc.perform(post(baseURL + "/vote")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(sessionVoteRequestDTOJson.write(
                                 createVoteRequestData
@@ -397,7 +399,7 @@ class SessionControllerTest {
         Mockito.when(sessionServiceMock.newVote(createVoteRequestData))
                 .thenThrow(new NullQueryResultException("Topic not found!"));
 
-        mvc.perform(post("/sessions/vote")
+        mvc.perform(post(baseURL + "/vote")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(sessionVoteRequestDTOJson.write(
                                 createVoteRequestData
@@ -418,7 +420,7 @@ class SessionControllerTest {
         Mockito.when(sessionServiceMock.newVote(createVoteRequestData))
                 .thenThrow(new AssociateInvalidVoteException("Associate already voted for this topic!"));
 
-        mvc.perform(post("/sessions/vote")
+        mvc.perform(post(baseURL + "/vote")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(sessionVoteRequestDTOJson.write(
                                 createVoteRequestData
