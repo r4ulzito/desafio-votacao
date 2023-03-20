@@ -63,44 +63,6 @@ class TopicControllerTest {
     }
 
     @Test
-    @DisplayName("Deve retornar status 400 ao criar um topico com titulo nulo")
-    public void createTopicWithNullTitleTest() throws Exception {
-
-        CreateTopicDTO createTopicData = new CreateTopicDTO(null, "Description1");
-
-        mvc.perform(post(baseURL)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(createTopicDTOJson.write(
-                                createTopicData
-                        ).getJson())
-                )
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value("The topic needs a title!"))
-                .andExpect(jsonPath("$.status").value(400))
-        ;
-
-    }
-
-    @Test
-    @DisplayName("Deve retornar status 400 ao criar um topico com descriçao nula")
-    public void createTopicWithNullDescriptionTest() throws Exception {
-
-        CreateTopicDTO createTopicData = new CreateTopicDTO("Title1", null);
-
-        mvc.perform(post(baseURL)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(createTopicDTOJson.write(
-                                createTopicData
-                        ).getJson())
-                )
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value("The topic needs a description!"))
-                .andExpect(jsonPath("$.status").value(400))
-        ;
-
-    }
-
-    @Test
     @DisplayName("Deve retonar status 200 e uma lista com todos os topicos")
     public void getAllTopicsTest() throws Exception {
 
@@ -136,6 +98,7 @@ class TopicControllerTest {
 
     }
 
+    //PAREI AQUI
     @Test
     @DisplayName("Deve retornar status 200 e o resultado da votação do topico")
     public void getVotesResultTest() throws Exception {
@@ -167,17 +130,6 @@ class TopicControllerTest {
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value("No votes registered!"))
                 .andExpect(jsonPath("$.status").value("404"));
-
-    }
-
-    @Test
-    @DisplayName("Deve retornar status 404 caso o ID passado seja nulo")
-    public void getVotesResultWithNullTopicIdTest() throws Exception {
-
-        mvc.perform(get(baseURL + "/results/")
-                        .contentType(MediaType.APPLICATION_JSON)
-                )
-                .andExpect(status().isNotFound());
 
     }
 

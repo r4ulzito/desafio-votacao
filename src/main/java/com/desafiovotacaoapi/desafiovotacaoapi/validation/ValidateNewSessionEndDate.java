@@ -6,7 +6,7 @@ public class ValidateNewSessionEndDate {
 
     public static LocalDateTime validateEndDate(LocalDateTime endDate) {
 
-        LocalDateTime today = LocalDateTime.now();
+        LocalDateTime today = LocalDateTime.now().withNano(0);
 
         if (endDate == null) {
             return today.plusMinutes(1);

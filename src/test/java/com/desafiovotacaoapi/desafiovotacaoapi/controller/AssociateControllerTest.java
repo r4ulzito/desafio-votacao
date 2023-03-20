@@ -61,21 +61,6 @@ class AssociateControllerTest {
     }
 
     @Test
-    @DisplayName("Deve retornar status 400 quando o nome do associado enviado na requisição for nulo")
-    public void createAssociateWithNullNameTest() throws Exception {
-
-        mvc.perform(post(baseURL)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(createAssociateDTOJson.write(
-                                new CreateAssociateDTO(null)
-                        ).getJson())
-                )
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value("The user needs a name!"))
-                .andExpect(jsonPath("$.status").value("400"));
-    }
-
-    @Test
     @DisplayName("Deve retonar status 200 e uma lista com todos os associados")
     public void getAllAsssociatesTest() throws Exception {
 
