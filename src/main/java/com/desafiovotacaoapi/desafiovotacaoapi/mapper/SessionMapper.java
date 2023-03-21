@@ -9,7 +9,7 @@ public interface SessionMapper {
 
     static Session buildSession(LocalDateTime dataEnd, Topic targetTopic) {
         return Session.builder()
-                .dataStart(LocalDateTime.now())
+                .dataStart(LocalDateTime.now().withNano(0))
                 .dataEnd(dataEnd)
                 .topic(targetTopic)
                 .build();

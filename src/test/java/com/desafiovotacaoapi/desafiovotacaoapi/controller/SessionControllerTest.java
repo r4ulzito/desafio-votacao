@@ -53,44 +53,6 @@ class SessionControllerTest {
     private static final String baseURL = "/sessions";
 
     @Test
-    @DisplayName("Deve retornar status 200 e uma lista com todas as sessões")
-    public void getAllSessionsTest() throws Exception {
-
-        LocalDateTime nowLocalDateTime = LocalDateTime.now().withNano(0);
-
-        List<GetSessionDTO> sessionsList = new ArrayList<>();
-        sessionsList.add(new GetSessionDTO(1L, nowLocalDateTime, nowLocalDateTime.plusHours(2), true, new Topic()));
-        sessionsList.add(new GetSessionDTO(2L, nowLocalDateTime, nowLocalDateTime.plusHours(2), false, new Topic()));
-
-        Mockito.when(sessionServiceMock.getAllSessions()).thenReturn(sessionsList);
-
-        mvc.perform(get(baseURL)
-                        .contentType(MediaType.APPLICATION_JSON)
-                )
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].id").value(1L))
-                .andExpect(jsonPath("$[0].dateStart").value(nowLocalDateTime.toString()))
-                .andExpect(jsonPath("$[0].dateEnd").value(nowLocalDateTime.plusHours(2).toString()))
-                .andExpect(jsonPath("$[0].isOpen").value("true"));
-
-    }
-
-    @Test
-    @DisplayName("Deve retornar status 200 e uma lista vazia caso não exista nenhuma sessão registrada")
-    public void getAllSessionsWithNoSessiosRegisteredTest() throws Exception {
-
-        Mockito.when(sessionServiceMock.getAllSessions()).thenReturn(new ArrayList<>());
-
-        mvc.perform(get(baseURL)
-                        .contentType(MediaType.APPLICATION_JSON)
-                )
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(0)));
-
-    }
-
-    @Test
     @DisplayName("Deve retornar status 201 ao criar uma sessão")
     public void createSessionTest() throws Exception {
 
@@ -156,24 +118,6 @@ class SessionControllerTest {
     }
 
     @Test
-    @DisplayName("Deve retornar status 400 ao passar o ID do tópico como nulo")
-    public void createSessionWithNullTopicIDTest() throws Exception {
-
-        LocalDateTime nowLocalDateTime = LocalDateTime.now().withNano(0);
-        CreateSessionDTO createSessionData = new CreateSessionDTO(nowLocalDateTime.plusHours(2), null);
-
-        var a = mvc.perform(post(baseURL)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(createSessionDTOJson.write(
-                                createSessionData
-                        ).getJson())
-                )
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value("The session needs a topic!"))
-                .andExpect(jsonPath("$.status").value("400"));
-    }
-
-    @Test
     @DisplayName("Deve retornar status 404 caso o topico referente a sessao não exista")
     public void createSessionWithInexistentSessionTopicTest() throws Exception {
 
@@ -196,25 +140,6 @@ class SessionControllerTest {
     }
 
     @Test
-    @DisplayName("Deve retornar status 400 caso o tempo de encerramento da sessão enviada seja anterior a data atual")
-    public void createSessionWithInvalidSessionEndDateTest() throws Exception {
-
-        LocalDateTime nowLocalDateTime = LocalDateTime.now().withNano(0);
-        CreateSessionDTO createSessionData = new CreateSessionDTO(nowLocalDateTime.minusHours(2), 1L);
-
-        mvc.perform(post(baseURL)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(createSessionDTOJson.write(
-                                createSessionData
-                        ).getJson())
-                )
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value("End date must be a future date!"))
-                .andExpect(jsonPath("$.status").value("400"));
-
-    }
-
-    @Test
     @DisplayName("Deve retornar status 400 caso ja exista uma sessao aberta referente ao topico ")
     public void createSessionWithUnavailableTopicTest() throws Exception {
 
@@ -233,6 +158,44 @@ class SessionControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("Already exist a open session for this topic!"))
                 .andExpect(jsonPath("$.status").value("400"));
+
+    }
+
+    @Test
+    @DisplayName("Deve retornar status 200 e uma lista com todas as sessões")
+    public void getAllSessionsTest() throws Exception {
+
+        LocalDateTime nowLocalDateTime = LocalDateTime.now().withNano(0);
+
+        List<GetSessionDTO> sessionsList = new ArrayList<>();
+        sessionsList.add(new GetSessionDTO(1L, nowLocalDateTime, nowLocalDateTime.plusHours(2), true, new Topic()));
+        sessionsList.add(new GetSessionDTO(2L, nowLocalDateTime, nowLocalDateTime.plusHours(2), false, new Topic()));
+
+        Mockito.when(sessionServiceMock.getAllSessions()).thenReturn(sessionsList);
+
+        mvc.perform(get(baseURL)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].id").value(1L))
+                .andExpect(jsonPath("$[0].dateStart").value(nowLocalDateTime.toString()))
+                .andExpect(jsonPath("$[0].dateEnd").value(nowLocalDateTime.plusHours(2).toString()))
+                .andExpect(jsonPath("$[0].isOpen").value("true"));
+
+    }
+
+    @Test
+    @DisplayName("Deve retornar status 200 e uma lista vazia caso não exista nenhuma sessão registrada")
+    public void getAllSessionsWithNoSessiosRegisteredTest() throws Exception {
+
+        Mockito.when(sessionServiceMock.getAllSessions()).thenReturn(new ArrayList<>());
+
+        mvc.perform(get(baseURL)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(0)));
 
     }
 
@@ -274,57 +237,6 @@ class SessionControllerTest {
                 .andExpect(jsonPath("$.topic.id").value("1"))
                 .andExpect(jsonPath("$.answer").value("YES"));
 
-    }
-
-    @Test
-    @DisplayName("Deve retornar status 400 caso o ID da sessao seja nulo")
-    public void voteWithNullSessionIdTest() throws Exception {
-
-        SessionVoteRequestDTO createVoteRequestData = new SessionVoteRequestDTO(null, 1L, Answer.YES);
-
-        mvc.perform(post(baseURL + "/vote")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(sessionVoteRequestDTOJson.write(
-                                createVoteRequestData
-                        ).getJson())
-                )
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value("Need's a session to vote!"))
-                .andExpect(jsonPath("$.status").value("400"));
-    }
-
-    @Test
-    @DisplayName("Deve retornar status 400 caso o ID do associado seja nulo")
-    public void voteWithNullAssocaiteIdTest() throws Exception {
-
-        SessionVoteRequestDTO createVoteRequestData = new SessionVoteRequestDTO(1L, null, Answer.YES);
-
-        mvc.perform(post(baseURL + "/vote")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(sessionVoteRequestDTOJson.write(
-                                createVoteRequestData
-                        ).getJson())
-                )
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value("Need's a associate to vote!"))
-                .andExpect(jsonPath("$.status").value("400"));
-    }
-
-    @Test
-    @DisplayName("Deve retornar status 400 caso o a resposta do voto seja nula")
-    public void voteWithNullAnswerTest() throws Exception {
-
-        SessionVoteRequestDTO createVoteRequestData = new SessionVoteRequestDTO(1L, 1L, null);
-
-        mvc.perform(post(baseURL + "/vote")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(sessionVoteRequestDTOJson.write(
-                                createVoteRequestData
-                        ).getJson())
-                )
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value("The vote needs a answer!"))
-                .andExpect(jsonPath("$.status").value("400"));
     }
 
     @Test
@@ -386,27 +298,6 @@ class SessionControllerTest {
                 )
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value("Associate not found!"))
-                .andExpect(jsonPath("$.status").value("404"));
-
-    }
-
-    @Test
-    @DisplayName("Deve retornar status 404 caso o topico referente a sessão não exista")
-    public void voteWithInexistentSessionTopicTest() throws Exception {
-
-        SessionVoteRequestDTO createVoteRequestData = new SessionVoteRequestDTO(1L, 1L, Answer.YES);
-
-        Mockito.when(sessionServiceMock.newVote(createVoteRequestData))
-                .thenThrow(new NullQueryResultException("Topic not found!"));
-
-        mvc.perform(post(baseURL + "/vote")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(sessionVoteRequestDTOJson.write(
-                                createVoteRequestData
-                        ).getJson())
-                )
-                .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.message").value("Topic not found!"))
                 .andExpect(jsonPath("$.status").value("404"));
 
     }

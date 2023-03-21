@@ -35,8 +35,8 @@ public class TopicServiceImplements implements TopicService {
 
     public Topic getTopicById(Long topicId) {
 
-        return this.topicRepository.findById(topicId)
-                .orElseThrow(() -> new NullQueryResultException("Topic not found!"));
+        return this.topicRepository.findById(topicId).get();
+
     }
 
     public List<GetTopicDTO> getAllTopics() {
