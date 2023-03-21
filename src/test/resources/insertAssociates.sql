@@ -1,2 +1,1 @@
-INSERT INTO tb_associates (name) VALUES ('Associate1');
-INSERT INTO tb_associates (name) VALUES ('Associate2');
+INSERT INTO tb_associates (name) VALUES ('Associate1'), ('Associate2');
